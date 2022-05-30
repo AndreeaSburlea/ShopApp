@@ -10,5 +10,9 @@ target 'ShopApp' do
 pod 'Firebase/Core'
 pod 'Firebase/Database'
 pod 'SwiftLint'
+pod 'GoogleSignIn'
+pod 'FirebaseAuth'
+
+
 
 end

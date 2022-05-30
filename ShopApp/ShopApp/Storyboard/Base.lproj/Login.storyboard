@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="XVq-qg-zH9">
+    <device id="retina6_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Get started now-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController storyboardIdentifier="LoginViewController" id="BYZ-38-t0r" customClass="LoginViewController" customModule="ShopApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="fPh-do-c1M">
+                                <rect key="frame" x="0.0" y="0.0" width="428" height="826"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5vV-6t-eei" userLabel="ImageView">
+                                        <rect key="frame" x="0.0" y="0.0" width="428" height="786"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hhS-EZ-EBc">
+                                                <rect key="frame" x="30" y="100" width="368" height="686"/>
+                                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <imageReference key="image" image="girl" symbolScale="small"/>
+                                            </imageView>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstItem="hhS-EZ-EBc" firstAttribute="leading" secondItem="5vV-6t-eei" secondAttribute="leading" constant="30" id="A9c-fZ-auO"/>
+                                            <constraint firstAttribute="trailing" secondItem="hhS-EZ-EBc" secondAttribute="trailing" constant="30" id="GUv-dm-eqF"/>
+                                            <constraint firstItem="hhS-EZ-EBc" firstAttribute="top" secondItem="5vV-6t-eei" secondAttribute="top" constant="100" id="Mnk-fL-pGs">
+                                                <variation key="heightClass=compact" constant="10"/>
+                                            </constraint>
+                                            <constraint firstAttribute="bottom" secondItem="hhS-EZ-EBc" secondAttribute="bottom" id="vlt-d4-Zm7">
+                                                <variation key="heightClass=compact" constant="10"/>
+                                            </constraint>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wUi-PZ-qmg" customClass="GIDSignInButton">
+                                        <rect key="frame" x="114" y="786" width="200" height="40"/>
+                                        <color key="backgroundColor" systemColor="systemRedColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="200" id="CMx-IM-BTT"/>
+                                            <constraint firstAttribute="height" constant="40" id="e2T-Hn-LE3"/>
+                                        </constraints>
+                                        <connections>
+                                            <action selector="googleSignIn" destination="BYZ-38-t0r" eventType="touchUpInside" id="JoP-AP-nz5"/>
+                                        </connections>
+                                    </view>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="fPh-do-c1M" secondAttribute="trailing" id="B1E-1T-Z3h"/>
+                            <constraint firstAttribute="bottom" secondItem="fPh-do-c1M" secondAttribute="bottom" constant="100" id="rn5-4R-qi2">
+                                <variation key="heightClass=compact" constant="50"/>
+                            </constraint>
+                            <constraint firstItem="fPh-do-c1M" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="woQ-8e-aHY"/>
+                            <constraint firstItem="fPh-do-c1M" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="wqZ-K1-YIv"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Get started now" id="fOJ-9t-OvU"/>
+                    <connections>
+                        <outlet property="signInButton" destination="wUi-PZ-qmg" id="xHX-CR-A2Y"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="915" y="84"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="CH4-RU-o6E">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="XVq-qg-zH9" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="o3j-Uj-1sQ">
+                        <rect key="frame" x="0.0" y="44" width="428" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textAttributes key="titleTextAttributes">
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="QXF-MB-Bzd"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZaG-RD-t8D" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="34.782608695652179" y="83.705357142857139"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="girl" width="456" height="456"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
