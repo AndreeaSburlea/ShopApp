@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="XVq-qg-zH9">
+    <device id="retina6_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Get started now-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController storyboardIdentifier="ViewController" id="BYZ-38-t0r" customClass="ViewController" customModule="ShopApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5vV-6t-eei" userLabel="ImageView">
+                                <rect key="frame" x="0.0" y="0.0" width="428" height="562.66666666666663"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hhS-EZ-EBc">
+                                        <rect key="frame" x="30" y="100.00000000000003" width="368" height="462.66666666666674"/>
+                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <imageReference key="image" image="girl" symbolScale="small"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="hhS-EZ-EBc" firstAttribute="leading" secondItem="5vV-6t-eei" secondAttribute="leading" constant="30" id="A9c-fZ-auO"/>
+                                    <constraint firstAttribute="trailing" secondItem="hhS-EZ-EBc" secondAttribute="trailing" constant="30" id="GUv-dm-eqF"/>
+                                    <constraint firstItem="hhS-EZ-EBc" firstAttribute="top" secondItem="5vV-6t-eei" secondAttribute="top" constant="100" id="Mnk-fL-pGs">
+                                        <variation key="heightClass=compact" constant="10"/>
+                                    </constraint>
+                                    <constraint firstAttribute="bottom" secondItem="hhS-EZ-EBc" secondAttribute="bottom" id="vlt-d4-Zm7">
+                                        <variation key="heightClass=compact" constant="10"/>
+                                    </constraint>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UcB-WN-Y8G" userLabel="LogInView">
+                                <rect key="frame" x="0.0" y="562.66666666666663" width="428" height="363.33333333333337"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="23" translatesAutoresizingMaskIntoConstraints="NO" id="Hxr-Vd-Aiz">
+                                        <rect key="frame" x="40" y="243.33333333333337" width="348" height="40"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wUi-PZ-qmg" customClass="GIDSignInButton">
+                                                <rect key="frame" x="0.0" y="0.0" width="348" height="40"/>
+                                                <color key="backgroundColor" systemColor="systemRedColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="e2T-Hn-LE3"/>
+                                                </constraints>
+                                                <connections>
+                                                    <action selector="googleSignIn" destination="BYZ-38-t0r" eventType="touchUpInside" id="JoP-AP-nz5"/>
+                                                </connections>
+                                            </view>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="Hxr-Vd-Aiz" firstAttribute="leading" secondItem="UcB-WN-Y8G" secondAttribute="leading" constant="40" id="lGA-nZ-lqv"/>
+                                    <constraint firstAttribute="trailing" secondItem="Hxr-Vd-Aiz" secondAttribute="trailing" constant="40" id="qAb-rR-fcH"/>
+                                    <constraint firstAttribute="bottom" secondItem="Hxr-Vd-Aiz" secondAttribute="bottom" constant="80" id="z9z-jl-Ya7">
+                                        <variation key="heightClass=compact" constant="20"/>
+                                    </constraint>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="5vV-6t-eei" secondAttribute="trailing" id="11W-vi-LBK"/>
+                            <constraint firstItem="UcB-WN-Y8G" firstAttribute="top" secondItem="5vV-6t-eei" secondAttribute="bottom" id="4Hp-e4-Yyr"/>
+                            <constraint firstItem="5vV-6t-eei" firstAttribute="height" secondItem="6Tk-OE-BBY" secondAttribute="height" multiplier="0.7" id="E82-44-GYA"/>
+                            <constraint firstItem="UcB-WN-Y8G" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Ni5-tN-REO"/>
+                            <constraint firstItem="5vV-6t-eei" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="PaV-Xw-YmF"/>
+                            <constraint firstItem="UcB-WN-Y8G" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="aWc-Wt-vO7"/>
+                            <constraint firstItem="5vV-6t-eei" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="ceb-Me-ywx"/>
+                            <constraint firstAttribute="bottom" secondItem="UcB-WN-Y8G" secondAttribute="bottom" id="hzL-4O-cED"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Get started now" id="fOJ-9t-OvU"/>
+                    <connections>
+                        <outlet property="signInButton" destination="wUi-PZ-qmg" id="xHX-CR-A2Y"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="915" y="84"/>
+        </scene>
+        <!--Home View Controller-->
+        <scene sceneID="xe1-Kw-OGn">
+            <objects>
+                <viewController storyboardIdentifier="HomeViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="AXE-9f-Sa0" customClass="HomeViewController" customModule="ShopApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Tge-u5-DfZ">
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fOx-de-U5k">
+                                <rect key="frame" x="141" y="92" width="146" height="67"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" name="google"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="LOG OUT"/>
+                                <connections>
+                                    <action selector="logout" destination="AXE-9f-Sa0" eventType="touchUpInside" id="qF1-r3-T7T"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="dEn-o0-32k"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="plB-CV-B3c"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ves-kb-O7m" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1808" y="84"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="CH4-RU-o6E">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="XVq-qg-zH9" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="o3j-Uj-1sQ">
+                        <rect key="frame" x="0.0" y="44" width="428" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textAttributes key="titleTextAttributes">
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="QXF-MB-Bzd"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZaG-RD-t8D" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="34.782608695652179" y="83.705357142857139"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="girl" width="1312" height="1308"/>
+        <namedColor name="google">
+            <color red="0.85882352941176465" green="0.26666666666666666" blue="0.21568627450980393" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
