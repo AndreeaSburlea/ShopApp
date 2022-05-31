@@ -9,6 +9,12 @@ import UIKit
 import FirebaseAuth
 
 class HomeViewController: UIViewController {
+    // swiftlint:disable line_length
+    // swiftlint:disable force_cast
+
+    var categoryList: [String] = ["coat", "jacket", "sweat", "tshirt", "shirt", "dress", "pants", "skirt"]
+
+    @IBOutlet private var collectionView: UICollectionView!
 
     @IBAction private func logout() {
         // Sign out from Google account
@@ -28,15 +34,41 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-    }
-    
-    /*
-    // MARK: - Navigation
+        let cellIdentifier = "CategoryCollectionViewCell"
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: UIScreen.main.bounds.width / 3, height: 120)
+        collectionView.collectionViewLayout = layout
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        collectionView.register(CategoryCollectionViewCell.nib(), forCellWithReuseIdentifier: cellIdentifier)
+        collectionView.delegate = self
+        collectionView.dataSource = self
     }
-    */
+}
+
+extension HomeViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+
+        print("tapped")
+    }
+}
+
+extension HomeViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return categoryList.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cellIdenntifier = "CategoryCollectionViewCell"
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdenntifier, for: indexPath) as! CategoryCollectionViewCell
+        cell.configure(with: UIImage(named: categoryList[indexPath.row])!, text: categoryList[indexPath.row])
+
+        return cell
+    }
+}
+
+extension HomeViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: UIScreen.main.bounds.width / 3, height: 150)
+    }
 }
