@@ -49,7 +49,14 @@ extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
 
-        print("tapped")
+        let storyboard = UIStoryboard(name: "ProductsByCategory", bundle: nil)
+        guard let productController = storyboard.instantiateViewController(withIdentifier: "ProductTableViewController") as? ProductTableViewController else {
+            return
+        }
+
+        productController.setCategory(category: categoryList[indexPath.row])
+        let navigationController = self.navigationController
+        navigationController?.setViewControllers([productController], animated: true)
     }
 }
 
