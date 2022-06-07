@@ -21,9 +21,7 @@ class ProductTableViewController: UITableViewController {
         case all
     }
 
-    func setCategory(category: String) {
-        self.category = category
-    }
+    func setCategory(category: String) { self.category = category }
 
     func configureDataSource() -> UITableViewDiffableDataSource<Section, Product > {
         let cellIdentifier = "productcell"
@@ -45,15 +43,14 @@ class ProductTableViewController: UITableViewController {
 
     // MARK: - ViewDidLoad
     override func viewDidLoad() {
+        super.viewDidLoad()
         async {
-            super.viewDidLoad()
-
-            navigationController?.navigationBar.prefersLargeTitles = true
-
             await self.getAllProducts()
             tableView.dataSource = dataSource
             self.updateSnapshot()
         }
+
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
 
     @IBAction private func backButton() {
@@ -76,7 +73,7 @@ class ProductTableViewController: UITableViewController {
     func updateSnapshot(animatingChange: Bool = false) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
         snapshot.appendSections([.all])
-        snapshot.appendItems(products, toSection: .all)
+        snapshot.appendItems(self.products, toSection: .all)
         dataSource.apply(snapshot, animatingDifferences: animatingChange)
     }
 
@@ -113,11 +110,11 @@ class ProductTableViewController: UITableViewController {
         let storage = Storage.storage().reference()
 
         for i in 1...4 {
-            let roots = root + "\(i).png"
+            let roots = root + "\(i).jpeg"
             let image = storage.child(roots)
 
             do {
-                let data = try await image.data(maxSize: 2 * 1024 * 1024)
+                let data = try await image.data(maxSize: 1 * 512 * 512)
 
                 guard let imageData = UIImage(data: data) else {
                     return []
@@ -125,7 +122,7 @@ class ProductTableViewController: UITableViewController {
 
                 images.append(imageData)
             } catch {
-                print("Error from get imageFromRoot \(error)")
+                print("Error from get imageFromRoot \(error):  \(roots)")
             }
         }
 
@@ -172,6 +169,18 @@ class ProductTableViewController: UITableViewController {
                 // Set images for product
                 await product.setImages(images: self.getAllImages(root: root))
                 self.products.append(product)
+            }
+        }
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showDetail" {
+            if let indexPath = tableView.indexPathForSelectedRow {
+                guard let destinationController = segue.destination as? ProductDetailsViewController else {
+                    return
+                }
+                
+                destinationController.setProduct(product: self.products[indexPath.row])
             }
         }
     }
