@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		340F8B362859C6CA002D5432 /* ProductImagesContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340F8B342859C6CA002D5432 /* ProductImagesContainerViewController.swift */; };
+		340F8B3C285A1A59002D5432 /* ProductDetailsView.Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340F8B3B285A1A59002D5432 /* ProductDetailsView.Controller.swift */; };
+		348F123A284E03D700AD33A3 /* ProductImagesPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348F1239284E03D700AD33A3 /* ProductImagesPageViewController.swift */; };
 		34928BAF2849EEA0007F2787 /* ProductTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34928BAB2849EEA0007F2787 /* ProductTableViewController.swift */; };
 		34928BB02849EEA0007F2787 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34928BAC2849EEA0007F2787 /* Product.swift */; };
 		34928BB12849EEA0007F2787 /* ProductsByCategory.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34928BAD2849EEA0007F2787 /* ProductsByCategory.storyboard */; };
@@ -34,6 +37,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		340F8B342859C6CA002D5432 /* ProductImagesContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductImagesContainerViewController.swift; sourceTree = "<group>"; };
+		340F8B3B285A1A59002D5432 /* ProductDetailsView.Controller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailsView.Controller.swift; sourceTree = "<group>"; };
+		348F1239284E03D700AD33A3 /* ProductImagesPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImagesPageViewController.swift; sourceTree = "<group>"; };
 		34928BAB2849EEA0007F2787 /* ProductTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductTableViewController.swift; sourceTree = "<group>"; };
 		34928BAC2849EEA0007F2787 /* Product.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		34928BAD2849EEA0007F2787 /* ProductsByCategory.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ProductsByCategory.storyboard; sourceTree = "<group>"; };
@@ -89,12 +95,15 @@
 		34928BB32849F1FD007F2787 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				340F8B3B285A1A59002D5432 /* ProductDetailsView.Controller.swift */,
+				340F8B342859C6CA002D5432 /* ProductImagesContainerViewController.swift */,
 				C7A640352840D93100C034A7 /* HomeViewController.swift */,
 				34928BAB2849EEA0007F2787 /* ProductTableViewController.swift */,
 				C7973D58283E57F300FDB86A /* LoginViewController.swift */,
 				C7D858E028534ED2000D3579 /* AccountTableViewController.swift */,
 				C7D858E2285355AA000D3579 /* DetailViewController.swift */,
 				C7D858EC28536AED000D3579 /* MapViewController.swift */,
+				348F1239284E03D700AD33A3 /* ProductImagesPageViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -318,13 +327,16 @@
 			files = (
 				34928BB22849EEA0007F2787 /* ProductByCategoryCell.swift in Sources */,
 				C7973D59283E57F300FDB86A /* LoginViewController.swift in Sources */,
+				348F123A284E03D700AD33A3 /* ProductImagesPageViewController.swift in Sources */,
 				C73876992845FEFA00C63CA5 /* CategoryCollectionViewCell.swift in Sources */,
+				340F8B362859C6CA002D5432 /* ProductImagesContainerViewController.swift in Sources */,
 				C7973D55283E57F300FDB86A /* AppDelegate.swift in Sources */,
 				C7973D57283E57F300FDB86A /* SceneDelegate.swift in Sources */,
 				34928BAF2849EEA0007F2787 /* ProductTableViewController.swift in Sources */,
 				C7A640362840D93100C034A7 /* HomeViewController.swift in Sources */,
 				C7D858ED28536AED000D3579 /* MapViewController.swift in Sources */,
 				C7D858E3285355AA000D3579 /* DetailViewController.swift in Sources */,
+				340F8B3C285A1A59002D5432 /* ProductDetailsView.Controller.swift in Sources */,
 				34928BB02849EEA0007F2787 /* Product.swift in Sources */,
 				C7D858E128534ED3000D3579 /* AccountTableViewController.swift in Sources */,
 				C7D858EB28536A23000D3579 /* LocationMapCell.swift in Sources */,
