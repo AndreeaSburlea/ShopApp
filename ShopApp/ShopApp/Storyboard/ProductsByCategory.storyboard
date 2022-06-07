@@ -3,6 +3,9 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,15 +19,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="product" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="productcell" rowHeight="152" id="sfx-3l-XaD" customClass="ProductByCategoryCell" customModule="ShopApp" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="product" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="productcell" rowHeight="152" id="sfx-3l-XaD" customClass="ProductByCategoryCell" customModule="ShopApp" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="44.5" width="414" height="152"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sfx-3l-XaD" id="RUm-i1-Lg2">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="152"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="385.5" height="152"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="XBM-gO-qdX">
-                                            <rect key="frame" x="20" y="11" width="394" height="130"/>
+                                            <rect key="frame" x="20" y="11" width="365.5" height="130"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pGl-Ey-gfY">
                                                     <rect key="frame" x="0.0" y="0.0" width="170" height="130"/>
@@ -39,7 +42,7 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="9" translatesAutoresizingMaskIntoConstraints="NO" id="Cul-cM-Ykh">
-                                                    <rect key="frame" x="200" y="0.0" width="194" height="80.5"/>
+                                                    <rect key="frame" x="200" y="0.0" width="165.5" height="80.5"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5OU-5I-hoN">
                                                             <rect key="frame" x="0.0" y="0.0" width="62.5" height="25.5"/>
@@ -79,6 +82,7 @@
                                     <outlet property="productName" destination="5OU-5I-hoN" id="3Ml-0N-IdT"/>
                                     <outlet property="productPrice" destination="w5j-mg-e0h" id="6UJ-ZI-eKy"/>
                                     <outlet property="productSize" destination="dml-zm-ZZE" id="wd0-qO-CyC"/>
+                                    <segue destination="BRY-cf-n9M" kind="presentation" identifier="showDetail" modalPresentationStyle="fullScreen" id="dQT-og-py7"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -99,6 +103,305 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cab-z4-MOG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1231.8840579710145" y="-20.089285714285712"/>
+        </scene>
+        <!--Product Images Page View Controller-->
+        <scene sceneID="b8N-Kq-6fC">
+            <objects>
+                <pageViewController storyboardIdentifier="ProductImagesPageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="xCN-TH-aKQ" customClass="ProductImagesPageViewController" customModule="ShopApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <size key="freeformSize" width="400" height="500"/>
+                </pageViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kwq-ry-W02" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2207" y="-48"/>
+        </scene>
+        <!--Product Detail View-->
+        <scene sceneID="QZb-yU-3h2">
+            <objects>
+                <viewController storyboardIdentifier="ProductDetailView" id="BRY-cf-n9M" customClass="ProductDetailView" customModule="ShopApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="LDZ-nG-FDr">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="imd-RA-N7n">
+                                <rect key="frame" x="0.0" y="626.5" width="414" height="269.5"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="brP-bL-Tbi">
+                                        <rect key="frame" x="25" y="30" width="364" height="85.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select Size" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F1n-dZ-D8t">
+                                                <rect key="frame" x="0.0" y="0.0" width="113" height="24.5"/>
+                                                <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="21"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="17" translatesAutoresizingMaskIntoConstraints="NO" id="Gd4-id-hJi">
+                                                <rect key="frame" x="0.0" y="45.5" width="343" height="40"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bKF-ge-PtU">
+                                                        <rect key="frame" x="0.0" y="0.0" width="43" height="40"/>
+                                                        <color key="backgroundColor" systemColor="systemGray6Color"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="43" id="XpL-dO-5nr"/>
+                                                        </constraints>
+                                                        <color key="tintColor" systemColor="systemGray3Color"/>
+                                                        <state key="normal" title="Button"/>
+                                                        <buttonConfiguration key="configuration" style="plain" title="XS" buttonSize="medium">
+                                                            <backgroundConfiguration key="background" cornerRadius="20" image="xmark" catalog="system"/>
+                                                            <fontDescription key="titleFontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="19"/>
+                                                            <directionalEdgeInsets key="contentInsets" top="0.0" leading="1" bottom="0.0" trailing="0.0"/>
+                                                            <color key="baseForegroundColor" name="Color-2"/>
+                                                        </buttonConfiguration>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                <integer key="value" value="11"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                        <connections>
+                                                            <action selector="sizeSelectWithSender:" destination="BRY-cf-n9M" eventType="touchUpInside" id="0Iq-nO-mgm"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bo3-UX-PMp">
+                                                        <rect key="frame" x="60" y="0.0" width="43" height="40"/>
+                                                        <color key="backgroundColor" systemColor="systemGray6Color"/>
+                                                        <color key="tintColor" systemColor="systemGray3Color"/>
+                                                        <state key="normal" title="Button"/>
+                                                        <buttonConfiguration key="configuration" style="plain" title="S" buttonSize="medium">
+                                                            <backgroundConfiguration key="background" cornerRadius="20" image="xmark" catalog="system"/>
+                                                            <fontDescription key="titleFontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="20"/>
+                                                            <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
+                                                            <color key="baseForegroundColor" name="Color-2"/>
+                                                        </buttonConfiguration>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                <integer key="value" value="11"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                        <connections>
+                                                            <action selector="sizeSelectWithSender:" destination="BRY-cf-n9M" eventType="touchUpInside" id="y8e-GW-GYJ"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="247" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XxK-In-PMj">
+                                                        <rect key="frame" x="120" y="0.0" width="43" height="40"/>
+                                                        <color key="backgroundColor" systemColor="systemGray6Color"/>
+                                                        <color key="tintColor" systemColor="systemGray3Color"/>
+                                                        <state key="normal" title="Button"/>
+                                                        <buttonConfiguration key="configuration" style="plain" title="M" buttonSize="medium">
+                                                            <backgroundConfiguration key="background" cornerRadius="20" image="xmark" catalog="system"/>
+                                                            <fontDescription key="titleFontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="19"/>
+                                                            <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
+                                                            <color key="baseForegroundColor" name="Color-2"/>
+                                                        </buttonConfiguration>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                <integer key="value" value="11"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                        <connections>
+                                                            <action selector="sizeSelectWithSender:" destination="BRY-cf-n9M" eventType="touchUpInside" id="caJ-eT-5KM"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3jc-Ik-iXC">
+                                                        <rect key="frame" x="180" y="0.0" width="43" height="40"/>
+                                                        <color key="backgroundColor" systemColor="systemGray6Color"/>
+                                                        <color key="tintColor" systemColor="systemGray3Color"/>
+                                                        <state key="normal" title="Button"/>
+                                                        <buttonConfiguration key="configuration" style="plain" title="L" buttonSize="medium">
+                                                            <backgroundConfiguration key="background">
+                                                                <imageReference key="image" image="xmark" catalog="system" symbolScale="small"/>
+                                                            </backgroundConfiguration>
+                                                            <fontDescription key="titleFontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="19"/>
+                                                            <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
+                                                            <color key="baseForegroundColor" name="Color-2"/>
+                                                        </buttonConfiguration>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                <integer key="value" value="11"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                        <connections>
+                                                            <action selector="sizeSelectWithSender:" destination="BRY-cf-n9M" eventType="touchUpInside" id="9s6-7o-i4q"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MGG-Fx-BPs">
+                                                        <rect key="frame" x="240" y="0.0" width="43" height="40"/>
+                                                        <color key="backgroundColor" systemColor="systemGray6Color"/>
+                                                        <color key="tintColor" systemColor="systemGray3Color"/>
+                                                        <state key="normal" title="Button"/>
+                                                        <buttonConfiguration key="configuration" style="plain" title="XL" buttonSize="medium">
+                                                            <backgroundConfiguration key="background" cornerRadius="20" image="xmark" catalog="system"/>
+                                                            <fontDescription key="titleFontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="19"/>
+                                                            <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
+                                                            <color key="baseForegroundColor" name="Color-2"/>
+                                                        </buttonConfiguration>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                <integer key="value" value="11"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                        <connections>
+                                                            <action selector="sizeSelectWithSender:" destination="BRY-cf-n9M" eventType="touchUpInside" id="BIV-de-UKT"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jxZ-5Y-CLn">
+                                                        <rect key="frame" x="300" y="0.0" width="43" height="40"/>
+                                                        <color key="backgroundColor" systemColor="systemGray6Color"/>
+                                                        <color key="tintColor" systemColor="systemGray3Color"/>
+                                                        <state key="normal" title="Button"/>
+                                                        <buttonConfiguration key="configuration" style="plain" title="XXL" buttonSize="medium">
+                                                            <backgroundConfiguration key="background" cornerRadius="20" image="xmark" catalog="system"/>
+                                                            <fontDescription key="titleFontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="19"/>
+                                                            <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
+                                                            <color key="baseForegroundColor" name="Color-2"/>
+                                                        </buttonConfiguration>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                <integer key="value" value="11"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                        <connections>
+                                                            <action selector="sizeSelectWithSender:" destination="BRY-cf-n9M" eventType="touchUpInside" id="jSu-Jf-rLz"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="ZWq-tj-1RC">
+                                                        <variation key="heightClass=compact" constant="35"/>
+                                                    </constraint>
+                                                </constraints>
+                                            </stackView>
+                                        </subviews>
+                                        <variation key="heightClass=compact" axis="horizontal" spacing="24"/>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="gKw-AA-H3o">
+                                        <rect key="frame" x="30" y="160.5" width="354" height="40"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vtr-8a-r8c">
+                                                <rect key="frame" x="0.0" y="7.5" width="162" height="25.5"/>
+                                                <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="22"/>
+                                                <color key="textColor" systemColor="systemRedColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xx2-SP-iUh">
+                                                <rect key="frame" x="192" y="0.0" width="162" height="40"/>
+                                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="p75-N8-eT0">
+                                                        <variation key="heightClass=compact" constant="32"/>
+                                                    </constraint>
+                                                </constraints>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Add to Cart">
+                                                    <fontDescription key="titleFontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="19"/>
+                                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </buttonConfiguration>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                        <integer key="value" value="10"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="addToCartWithSender:" destination="l52-h9-E85" eventType="touchUpInside" id="OsS-FB-FOf"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="gKw-AA-H3o" firstAttribute="top" secondItem="brP-bL-Tbi" secondAttribute="bottom" constant="45" id="C6R-Y1-56y">
+                                        <variation key="heightClass=compact" constant="14"/>
+                                    </constraint>
+                                    <constraint firstItem="brP-bL-Tbi" firstAttribute="leading" secondItem="imd-RA-N7n" secondAttribute="leading" constant="25" id="Ic8-zo-Z3D">
+                                        <variation key="heightClass=compact" constant="10"/>
+                                    </constraint>
+                                    <constraint firstAttribute="trailing" secondItem="gKw-AA-H3o" secondAttribute="trailing" constant="30" id="P3W-mf-ezQ"/>
+                                    <constraint firstItem="brP-bL-Tbi" firstAttribute="top" secondItem="imd-RA-N7n" secondAttribute="top" constant="30" id="YOp-dD-mTm">
+                                        <variation key="heightClass=compact" constant="15"/>
+                                    </constraint>
+                                    <constraint firstAttribute="bottom" secondItem="gKw-AA-H3o" secondAttribute="bottom" constant="69" id="bGi-mA-gRN">
+                                        <variation key="heightClass=compact" constant="20"/>
+                                    </constraint>
+                                    <constraint firstItem="gKw-AA-H3o" firstAttribute="leading" secondItem="imd-RA-N7n" secondAttribute="leading" constant="30" id="dIy-jk-rDO"/>
+                                    <constraint firstItem="brP-bL-Tbi" firstAttribute="centerX" secondItem="imd-RA-N7n" secondAttribute="centerX" id="k9g-a6-nEV"/>
+                                    <constraint firstAttribute="trailing" secondItem="brP-bL-Tbi" secondAttribute="trailing" constant="25" id="yYZ-lc-Wb8">
+                                        <variation key="heightClass=compact" constant="10"/>
+                                    </constraint>
+                                </constraints>
+                            </view>
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="4" translatesAutoresizingMaskIntoConstraints="NO" id="omN-A6-Z0X">
+                                <rect key="frame" x="141" y="575.5" width="132.5" height="26"/>
+                            </pageControl>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aE7-KZ-njh">
+                                <rect key="frame" x="30" y="44" width="60" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="NRe-L0-qhR"/>
+                                    <constraint firstAttribute="height" constant="45" id="ihl-rs-qc9"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="hand.thumbsup" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="21"/>
+                                    <color key="baseForegroundColor" name="Color-2"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="likeActionWithSender:" destination="BRY-cf-n9M" eventType="touchUpInside" id="xWA-Sz-cTw"/>
+                                </connections>
+                            </button>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1pr-cU-9U1">
+                                <rect key="frame" x="0.0" y="94" width="414" height="532.5"/>
+                                <connections>
+                                    <segue destination="xCN-TH-aKQ" kind="embed" id="NFB-vN-VPt"/>
+                                </connections>
+                            </containerView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZOH-ts-kKd">
+                                <rect key="frame" x="329" y="44" width="55" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="32h-1S-eEP"/>
+                                    <constraint firstAttribute="width" constant="55" id="wMA-ou-KfH"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="xmark.circle.fill" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="25" scale="large"/>
+                                    <color key="baseForegroundColor" name="Color-2"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="closeActionWithSender:" destination="BRY-cf-n9M" eventType="touchUpInside" id="4LN-PB-PpH"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="spS-12-lZW"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="ZOH-ts-kKd" firstAttribute="top" secondItem="spS-12-lZW" secondAttribute="top" id="1oB-mB-YjA"/>
+                            <constraint firstItem="spS-12-lZW" firstAttribute="trailing" secondItem="imd-RA-N7n" secondAttribute="trailing" id="7fl-g0-Fkp"/>
+                            <constraint firstItem="omN-A6-Z0X" firstAttribute="centerX" secondItem="LDZ-nG-FDr" secondAttribute="centerX" id="JGB-3A-VGT"/>
+                            <constraint firstAttribute="bottom" secondItem="imd-RA-N7n" secondAttribute="bottom" id="O0x-d5-SmK"/>
+                            <constraint firstItem="1pr-cU-9U1" firstAttribute="leading" secondItem="spS-12-lZW" secondAttribute="leading" id="Q1p-dk-W39"/>
+                            <constraint firstItem="aE7-KZ-njh" firstAttribute="leading" secondItem="spS-12-lZW" secondAttribute="leading" constant="30" id="RgZ-td-wJt"/>
+                            <constraint firstItem="imd-RA-N7n" firstAttribute="top" secondItem="1pr-cU-9U1" secondAttribute="bottom" id="TEH-Md-Dlj"/>
+                            <constraint firstItem="imd-RA-N7n" firstAttribute="leading" secondItem="1pr-cU-9U1" secondAttribute="leading" id="chw-Vo-78J"/>
+                            <constraint firstItem="1pr-cU-9U1" firstAttribute="top" secondItem="spS-12-lZW" secondAttribute="top" constant="50" id="eRF-cV-X2d"/>
+                            <constraint firstItem="1pr-cU-9U1" firstAttribute="trailing" secondItem="spS-12-lZW" secondAttribute="trailing" id="gXE-qv-qjF"/>
+                            <constraint firstItem="imd-RA-N7n" firstAttribute="top" secondItem="omN-A6-Z0X" secondAttribute="bottom" constant="25" id="nqp-Bt-vwN"/>
+                            <constraint firstItem="aE7-KZ-njh" firstAttribute="top" secondItem="spS-12-lZW" secondAttribute="top" id="qEE-Xv-Z45"/>
+                            <constraint firstItem="spS-12-lZW" firstAttribute="trailing" secondItem="ZOH-ts-kKd" secondAttribute="trailing" constant="30" id="uNU-N5-rB8"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="fjw-1p-nPW"/>
+                    <connections>
+                        <outlet property="likeButton" destination="aE7-KZ-njh" id="ynf-W7-sCA"/>
+                        <outlet property="pageControl" destination="omN-A6-Z0X" id="Cd6-l4-JQT"/>
+                        <outlet property="priceLable" destination="vtr-8a-r8c" id="z7O-gk-vpu"/>
+                        <outletCollection property="sizeButtons" destination="bKF-ge-PtU" collectionClass="NSMutableArray" id="1K4-TA-Fxi"/>
+                        <outletCollection property="sizeButtons" destination="Bo3-UX-PMp" collectionClass="NSMutableArray" id="h8k-at-MbV"/>
+                        <outletCollection property="sizeButtons" destination="XxK-In-PMj" collectionClass="NSMutableArray" id="Q1g-XN-NaG"/>
+                        <outletCollection property="sizeButtons" destination="3jc-Ik-iXC" collectionClass="NSMutableArray" id="HiN-Na-yfq"/>
+                        <outletCollection property="sizeButtons" destination="MGG-Fx-BPs" collectionClass="NSMutableArray" id="xdF-mY-0UQ"/>
+                        <outletCollection property="sizeButtons" destination="jxZ-5Y-CLn" collectionClass="NSMutableArray" id="z4e-up-YRJ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="l52-h9-E85" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4086.9565217391309" y="-47.544642857142854"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Uhg-UX-Q0n">
@@ -121,11 +424,74 @@
             </objects>
             <point key="canvasLocation" x="321.73913043478262" y="-20.089285714285712"/>
         </scene>
+        <!--Images Product View Controller-->
+        <scene sceneID="Pil-7E-HAI">
+            <objects>
+                <viewController storyboardIdentifier="ImagesProductViewController" id="Ghz-QU-AZ9" customClass="ImagesProductViewController" customModule="ShopApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Iqy-4E-b2E">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="N4s-L6-bxx">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="d6m-mU-NLf"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="d6m-mU-NLf" firstAttribute="trailing" secondItem="N4s-L6-bxx" secondAttribute="trailing" id="EhO-wE-O3z"/>
+                            <constraint firstItem="N4s-L6-bxx" firstAttribute="top" secondItem="d6m-mU-NLf" secondAttribute="top" id="Mjj-Zu-aBG"/>
+                            <constraint firstItem="N4s-L6-bxx" firstAttribute="leading" secondItem="d6m-mU-NLf" secondAttribute="leading" id="OIH-eG-4gB"/>
+                            <constraint firstItem="d6m-mU-NLf" firstAttribute="bottom" secondItem="N4s-L6-bxx" secondAttribute="bottom" id="dcX-dm-YTB"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="contentImageView" destination="N4s-L6-bxx" id="a4R-Os-hYg"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3Jz-YO-cTT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4884.057971014493" y="-47.544642857142854"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="nix-0O-8vi">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="PYD-Me-e2G" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="swB-ay-xC4"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="1w9-ZY-Rbm">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BRY-cf-n9M" kind="relationship" relationship="rootViewController" id="Mro-hF-DMZ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bts-Wx-Igi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3176.811594202899" y="-47.544642857142854"/>
+        </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="Mro-hF-DMZ"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.backward" catalog="system" width="128" height="98"/>
+        <image name="hand.thumbsup" catalog="system" width="128" height="128"/>
+        <image name="xmark" catalog="system" width="128" height="113"/>
+        <image name="xmark.circle.fill" catalog="system" width="128" height="121"/>
+        <namedColor name="Color-2">
+            <color red="0.95686274509803926" green="0.47058823529411764" blue="0.396078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray3Color">
+            <color red="0.7803921568627451" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGray6Color">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemRedColor">
             <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

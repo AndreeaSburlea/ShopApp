@@ -21,9 +21,7 @@ class ProductTableViewController: UITableViewController {
         case all
     }
 
-    func setCategory(category: String) {
-        self.category = category
-    }
+    func setCategory(category: String) { self.category = category }
 
     func configureDataSource() -> UITableViewDiffableDataSource<Section, Product > {
         let cellIdentifier = "productcell"
@@ -76,7 +74,7 @@ class ProductTableViewController: UITableViewController {
     func updateSnapshot(animatingChange: Bool = false) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
         snapshot.appendSections([.all])
-        snapshot.appendItems(products, toSection: .all)
+        snapshot.appendItems(self.products, toSection: .all)
         dataSource.apply(snapshot, animatingDifferences: animatingChange)
     }
 
@@ -172,6 +170,18 @@ class ProductTableViewController: UITableViewController {
                 // Set images for product
                 await product.setImages(images: self.getImagesFromRoot(root: root))
                 self.products.append(product)
+            }
+        }
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showDetail" {
+            if let indexPath = tableView.indexPathForSelectedRow {
+                guard let destinationController = segue.destination as? ProductDetailView else {
+                    return
+                }
+                
+                destinationController.setProduct(product: self.products[indexPath.row])
             }
         }
     }
