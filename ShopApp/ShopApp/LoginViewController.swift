@@ -60,7 +60,7 @@ class LoginViewController: UIViewController {
 
     func navigateToHomeScreen() {
         let storyboard = UIStoryboard(name: "HomePage", bundle: nil)
-        let homeViewController = storyboard.instantiateViewController(identifier: "HomeViewController")
+        let homeViewController = storyboard.instantiateViewController(identifier: "TabController")
         let navigationController = self.navigationController
         navigationController?.setViewControllers([homeViewController], animated: true)
     }
