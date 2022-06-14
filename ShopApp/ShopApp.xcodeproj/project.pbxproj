@@ -23,6 +23,14 @@
 		C7973D61283E57F700FDB86A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7973D5F283E57F700FDB86A /* LaunchScreen.storyboard */; };
 		C7973D69283E594B00FDB86A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C7973D68283E594B00FDB86A /* GoogleService-Info.plist */; };
 		C7A640362840D93100C034A7 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A640352840D93100C034A7 /* HomeViewController.swift */; };
+		C7D858DB28534D6C000D3579 /* Cart.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7D858DA28534D6C000D3579 /* Cart.storyboard */; };
+		C7D858DD28534D84000D3579 /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7D858DC28534D84000D3579 /* Account.storyboard */; };
+		C7D858DF28534D9F000D3579 /* Like.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7D858DE28534D9F000D3579 /* Like.storyboard */; };
+		C7D858E128534ED3000D3579 /* AccountTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D858E028534ED2000D3579 /* AccountTableViewController.swift */; };
+		C7D858E3285355AA000D3579 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D858E2285355AA000D3579 /* DetailViewController.swift */; };
+		C7D858E528535B6B000D3579 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7D858E428535B6B000D3579 /* MapKit.framework */; };
+		C7D858EB28536A23000D3579 /* LocationMapCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D858EA28536A23000D3579 /* LocationMapCell.swift */; };
+		C7D858ED28536AED000D3579 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D858EC28536AED000D3579 /* MapViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +53,14 @@
 		C7973D62283E57F700FDB86A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C7973D68283E594B00FDB86A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C7A640352840D93100C034A7 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		C7D858DA28534D6C000D3579 /* Cart.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Cart.storyboard; sourceTree = "<group>"; };
+		C7D858DC28534D84000D3579 /* Account.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Account.storyboard; sourceTree = "<group>"; };
+		C7D858DE28534D9F000D3579 /* Like.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Like.storyboard; sourceTree = "<group>"; };
+		C7D858E028534ED2000D3579 /* AccountTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountTableViewController.swift; sourceTree = "<group>"; };
+		C7D858E2285355AA000D3579 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		C7D858E428535B6B000D3579 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		C7D858EA28536A23000D3579 /* LocationMapCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationMapCell.swift; sourceTree = "<group>"; };
+		C7D858EC28536AED000D3579 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		F8BAB5125ECEC9827AE90AAA /* Pods-ShopApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShopApp.release.xcconfig"; path = "Target Support Files/Pods-ShopApp/Pods-ShopApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -53,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7D858E528535B6B000D3579 /* MapKit.framework in Frameworks */,
 				862F03DEB6A143A0EC1A400D /* Pods_ShopApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -63,6 +80,7 @@
 		1C62B432BF20DF7066E233F2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C7D858E428535B6B000D3579 /* MapKit.framework */,
 				37706039A7378BC217D64489 /* Pods_ShopApp.framework */,
 			);
 			name = Frameworks;
@@ -74,6 +92,9 @@
 				C7A640352840D93100C034A7 /* HomeViewController.swift */,
 				34928BAB2849EEA0007F2787 /* ProductTableViewController.swift */,
 				C7973D58283E57F300FDB86A /* LoginViewController.swift */,
+				C7D858E028534ED2000D3579 /* AccountTableViewController.swift */,
+				C7D858E2285355AA000D3579 /* DetailViewController.swift */,
+				C7D858EC28536AED000D3579 /* MapViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -83,6 +104,7 @@
 			children = (
 				34928BAE2849EEA0007F2787 /* ProductByCategoryCell.swift */,
 				C73876972845FEFA00C63CA5 /* CategoryCollectionViewCell.swift */,
+				C7D858EA28536A23000D3579 /* LocationMapCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -101,6 +123,9 @@
 				34928BAD2849EEA0007F2787 /* ProductsByCategory.storyboard */,
 				C7973D5A283E57F300FDB86A /* Login.storyboard */,
 				C738768C28411CC200C63CA5 /* HomePage.storyboard */,
+				C7D858DE28534D9F000D3579 /* Like.storyboard */,
+				C7D858DC28534D84000D3579 /* Account.storyboard */,
+				C7D858DA28534D6C000D3579 /* Cart.storyboard */,
 				C7973D5F283E57F700FDB86A /* LaunchScreen.storyboard */,
 			);
 			path = Storyboard;
@@ -211,13 +236,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7D858DB28534D6C000D3579 /* Cart.storyboard in Resources */,
 				C738769A2845FEFA00C63CA5 /* CategoryCollectionViewCell.xib in Resources */,
 				C738768D28411CC300C63CA5 /* HomePage.storyboard in Resources */,
 				C7973D61283E57F700FDB86A /* LaunchScreen.storyboard in Resources */,
 				C7973D69283E594B00FDB86A /* GoogleService-Info.plist in Resources */,
 				34928BB12849EEA0007F2787 /* ProductsByCategory.storyboard in Resources */,
 				C7973D5E283E57F700FDB86A /* Assets.xcassets in Resources */,
+				C7D858DD28534D84000D3579 /* Account.storyboard in Resources */,
 				C7973D5C283E57F300FDB86A /* Login.storyboard in Resources */,
+				C7D858DF28534D9F000D3579 /* Like.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,7 +323,11 @@
 				C7973D57283E57F300FDB86A /* SceneDelegate.swift in Sources */,
 				34928BAF2849EEA0007F2787 /* ProductTableViewController.swift in Sources */,
 				C7A640362840D93100C034A7 /* HomeViewController.swift in Sources */,
+				C7D858ED28536AED000D3579 /* MapViewController.swift in Sources */,
+				C7D858E3285355AA000D3579 /* DetailViewController.swift in Sources */,
 				34928BB02849EEA0007F2787 /* Product.swift in Sources */,
+				C7D858E128534ED3000D3579 /* AccountTableViewController.swift in Sources */,
+				C7D858EB28536A23000D3579 /* LocationMapCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
