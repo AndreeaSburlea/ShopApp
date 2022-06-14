@@ -93,7 +93,6 @@ extension HomeViewController: UICollectionViewDelegate {
         productController.setCategory(category: categoryList[indexPath.row])
         let navigationController = self.navigationController
         navigationController?.setViewControllers([productController], animated: true)
-
     }
 }
 

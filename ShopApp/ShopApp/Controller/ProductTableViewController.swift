@@ -48,7 +48,7 @@ class ProductTableViewController: UITableViewController {
 
             navigationController?.navigationBar.prefersLargeTitles = true
 
-            await self.dataRead()
+            await self.getAllProducts()
             tableView.dataSource = dataSource
             self.updateSnapshot()
         }
@@ -106,7 +106,7 @@ class ProductTableViewController: UITableViewController {
     }
 
     // MARK: - Read images from a root
-    func getImagesFromRoot(root: String) async -> [UIImage] {
+    func getAllImages(root: String) async -> [UIImage] {
         var images = [UIImage]()
         let storage = Storage.storage().reference()
 
@@ -131,7 +131,7 @@ class ProductTableViewController: UITableViewController {
     }
 
     // MARK: - Read data from firebase and append in products
-    func dataRead() async {
+    func getAllProducts() async {
         self.ref = Database.database().reference()
         var product = Product()
         var root: String = "images/"
@@ -168,7 +168,7 @@ class ProductTableViewController: UITableViewController {
                 root = "images/" + dataKeys as String + "/" + dataKeys as String
 
                 // Set images for product
-                await product.setImages(images: self.getImagesFromRoot(root: root))
+                await product.setImages(images: self.getAllImages(root: root))
                 self.products.append(product)
             }
         }
