@@ -34,6 +34,7 @@
 		C7D858E528535B6B000D3579 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7D858E428535B6B000D3579 /* MapKit.framework */; };
 		C7D858EB28536A23000D3579 /* LocationMapCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D858EA28536A23000D3579 /* LocationMapCell.swift */; };
 		C7D858ED28536AED000D3579 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D858EC28536AED000D3579 /* MapViewController.swift */; };
+		C7D858EF2859D184000D3579 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D858EE2859D184000D3579 /* Category.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,6 +68,7 @@
 		C7D858E428535B6B000D3579 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		C7D858EA28536A23000D3579 /* LocationMapCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationMapCell.swift; sourceTree = "<group>"; };
 		C7D858EC28536AED000D3579 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		C7D858EE2859D184000D3579 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		F8BAB5125ECEC9827AE90AAA /* Pods-ShopApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShopApp.release.xcconfig"; path = "Target Support Files/Pods-ShopApp/Pods-ShopApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -122,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				34928BAC2849EEA0007F2787 /* Product.swift */,
+				C7D858EE2859D184000D3579 /* Category.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -337,6 +340,7 @@
 				C7D858ED28536AED000D3579 /* MapViewController.swift in Sources */,
 				C7D858E3285355AA000D3579 /* DetailViewController.swift in Sources */,
 				340F8B3C285A1A59002D5432 /* ProductDetailsView.Controller.swift in Sources */,
+				C7D858EF2859D184000D3579 /* Category.swift in Sources */,
 				34928BB02849EEA0007F2787 /* Product.swift in Sources */,
 				C7D858E128534ED3000D3579 /* AccountTableViewController.swift in Sources */,
 				C7D858EB28536A23000D3579 /* LocationMapCell.swift in Sources */,
