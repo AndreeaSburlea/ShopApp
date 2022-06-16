@@ -8,16 +8,23 @@
 import UIKit
 import FirebaseAuth
 import FirebaseDatabase
+import FirebaseStorage
 
 class HomeViewController: UIViewController {
     // swiftlint:disable line_length
     // swiftlint:disable force_cast
 
-    var categoryList: [String] = ["coat", "jacket", "sweat", "tshirt", "shirt", "dress", "pants", "skirt"]
-    private let currentUser = Auth.auth().currentUser
+    var categoryList = [Category]()
+    private let ref = Database.database().reference()
+    private let storage = Storage.storage().reference()
+
+    enum Section {
+        case all
+    }
 
     @IBOutlet private var collectionView: UICollectionView!
 
+    // Logout the user
     @IBAction private func logout() {
         // Sign out from Google account
         let firebaseAuth = Auth.auth()
@@ -33,52 +40,66 @@ class HomeViewController: UIViewController {
         navigationController?.setViewControllers([loginViewController], animated: true)
     }
 
-    func addUser() async {
-        let ref = Database.database().reference()
-
-        guard let name = self.currentUser?.displayName as? String else { return }
-        guard let email = self.currentUser?.email as? String else { return }
-
-        do {
-            // Get data from users table
-            let dataRead = await ref.child("users").observeSingleEventAndPreviousSiblingKey(of: .value)
-
-            let data = dataRead.0.value as? [String: Any]
-
-            // Check if data is null
-            guard let data = data else {
-                return
-            }
-
-            let emailVal = email.replacingOccurrences(of: ".", with: " ")
-
-            // For every user in users table
-            for dataKeys in data.keys where dataKeys.elementsEqual(emailVal) {
-                return
-            }
-
-            let refValue = Database.database().reference().child("users/\(emailVal)")
-            try await refValue.updateChildValues(["name": name])
-        } catch {
-            print(error)
-        }
-    }
-
+    // MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        async { await self.addUser() }
-        self.configureCategoryCollectionView()
-    }
 
-    func configureCategoryCollectionView() {
         let cellIdentifier = "CategoryCollectionViewCell"
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: UIScreen.main.bounds.width / 3, height: 120)
         collectionView.collectionViewLayout = layout
 
-        collectionView.register(CategoryCollectionViewCell.nib(), forCellWithReuseIdentifier: cellIdentifier)
-        collectionView.delegate = self
-        collectionView.dataSource = self
+        self.collectionView.register(CategoryCollectionViewCell.nib(), forCellWithReuseIdentifier: cellIdentifier)
+        self.collectionView.delegate = self
+        self.collectionView.dataSource = self
+
+        self.getAllCategories()
+    }
+
+    // MARK: - Get all categories from database
+    func getAllCategories() {
+        // Read data from database/categories/
+        ref.child("categories/").observeSingleEvent(of: .value, with: { snapshot in
+            // Get categories and images as dictionary
+            let value = snapshot.value as? [String: String]
+            // Unwrap the dictionary
+            if let categories = value {
+                // For each category element get the attributes
+                for category in categories {
+                    var newCategory = Category()
+                    // Set the name of category
+                    newCategory.setName(name: category.key)
+                    // Create the path to retrieve the image
+                    let path = category.value as String
+                    // Call the getImage method and process the image in the completion block
+                    self.getImage(path: path, completion: { image in
+                        // Set image of the category
+                        newCategory.setImage(image: image)
+                        // Append the category to the list
+                        self.categoryList.append(newCategory)
+                        // If we retrieved all the categories, sort the list and reload data
+                        if self.categoryList.count == categories.count {
+                            self.categoryList.sort(by: { $0.getName() < $1.getName() })
+                            self.collectionView.reloadData()
+                        }
+                    })
+                }
+            }
+    }) { error in
+        print(error.localizedDescription)
+      }
+}
+
+    // MARK: - Get the image based on the path
+    func getImage(path: String, completion: @escaping (UIImage) -> Void) {
+        let image = storage.child(path)
+        image.getData(maxSize: 1 * 100 * 100) { data, error in
+            guard let data = data, let imageData = UIImage(data: data) else {
+                print(error as Any)
+                return
+            }
+            completion(imageData)
+        }
     }
 }
 
@@ -91,7 +112,7 @@ extension HomeViewController: UICollectionViewDelegate {
             return
         }
 
-        productController.setCategory(category: categoryList[indexPath.row])
+        productController.setCategory(category: categoryList[indexPath.row].getName())
         let navigationController = self.navigationController
         navigationController?.setViewControllers([productController], animated: true)
     }
@@ -105,7 +126,7 @@ extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cellIdenntifier = "CategoryCollectionViewCell"
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdenntifier, for: indexPath) as! CategoryCollectionViewCell
-        cell.configure(with: UIImage(named: categoryList[indexPath.row])!, text: categoryList[indexPath.row])
+        cell.configure(with: categoryList[indexPath.row].getImage(), text: categoryList[indexPath.row].getName())
 
         return cell
     }
