@@ -37,6 +37,9 @@
 		C7D858EB28536A23000D3579 /* LocationMapCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D858EA28536A23000D3579 /* LocationMapCell.swift */; };
 		C7D858ED28536AED000D3579 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D858EC28536AED000D3579 /* MapViewController.swift */; };
 		C7D858EF2859D184000D3579 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D858EE2859D184000D3579 /* Category.swift */; };
+		C7D858F1285B28B3000D3579 /* CartProductTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D858F0285B28B3000D3579 /* CartProductTableViewCell.swift */; };
+		C7D858F3285B2C15000D3579 /* CartTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D858F2285B2C15000D3579 /* CartTableViewController.swift */; };
+		C7D858F5285B3B00000D3579 /* CartProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D858F4285B3B00000D3579 /* CartProduct.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -75,6 +78,9 @@
 		C7D858EA28536A23000D3579 /* LocationMapCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationMapCell.swift; sourceTree = "<group>"; };
 		C7D858EC28536AED000D3579 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		C7D858EE2859D184000D3579 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		C7D858F0285B28B3000D3579 /* CartProductTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartProductTableViewCell.swift; sourceTree = "<group>"; };
+		C7D858F2285B2C15000D3579 /* CartTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartTableViewController.swift; sourceTree = "<group>"; };
+		C7D858F4285B3B00000D3579 /* CartProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartProduct.swift; sourceTree = "<group>"; };
 		F8BAB5125ECEC9827AE90AAA /* Pods-ShopApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShopApp.release.xcconfig"; path = "Target Support Files/Pods-ShopApp/Pods-ShopApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -117,6 +123,7 @@
 				34928BAB2849EEA0007F2787 /* ProductTableViewController.swift */,
 				C7973D58283E57F300FDB86A /* LoginViewController.swift */,
 				C7D858E028534ED2000D3579 /* AccountTableViewController.swift */,
+				C7D858F2285B2C15000D3579 /* CartTableViewController.swift */,
 				C7D858E2285355AA000D3579 /* DetailViewController.swift */,
 				C7D858EC28536AED000D3579 /* MapViewController.swift */,
 				348F1239284E03D700AD33A3 /* ProductImagesPageViewController.swift */,
@@ -134,6 +141,7 @@
 				C73876972845FEFA00C63CA5 /* CategoryCollectionViewCell.swift */,
 				C7D858EA28536A23000D3579 /* LocationMapCell.swift */,
 				340F8B41285CB60E002D5432 /* CommentTableViewCell.swift */,
+				C7D858F0285B28B3000D3579 /* CartProductTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -143,6 +151,7 @@
 			children = (
 				34928BAC2849EEA0007F2787 /* Product.swift */,
 				C7D858EE2859D184000D3579 /* Category.swift */,
+				C7D858F4285B3B00000D3579 /* CartProduct.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -359,6 +368,7 @@
 				340F8B4B28605D55002D5432 /* ImagesProductViewController.swift in Sources */,
 				34928BAF2849EEA0007F2787 /* ProductTableViewController.swift in Sources */,
 				C7A640362840D93100C034A7 /* HomeViewController.swift in Sources */,
+				C7D858F5285B3B00000D3579 /* CartProduct.swift in Sources */,
 				C7D858ED28536AED000D3579 /* MapViewController.swift in Sources */,
 				340F8B4D28605D9C002D5432 /* ProductImagesPageViewController.swift in Sources */,
 				C7D858E3285355AA000D3579 /* DetailViewController.swift in Sources */,
@@ -367,6 +377,8 @@
 				C7D858EF2859D184000D3579 /* Category.swift in Sources */,
 				34928BB02849EEA0007F2787 /* Product.swift in Sources */,
 				C7D858E128534ED3000D3579 /* AccountTableViewController.swift in Sources */,
+				C7D858F1285B28B3000D3579 /* CartProductTableViewCell.swift in Sources */,
+				C7D858F3285B2C15000D3579 /* CartTableViewController.swift in Sources */,
 				C7D858EB28536A23000D3579 /* LocationMapCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
