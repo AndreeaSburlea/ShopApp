@@ -12,14 +12,14 @@ import FirebaseStorage
 
 class ProductTableViewController: UITableViewController {
 
+    @IBOutlet private var emptyProducts: UIView!
+
     private var products = [Product]()
     private var ref: DatabaseReference!
     lazy var dataSource = configureDataSource()
     private var category = "Dress"
 
-    enum Section {
-        case all
-    }
+    enum Section { case all }
 
     func setCategory(category: String) { self.category = category }
 
@@ -44,13 +44,36 @@ class ProductTableViewController: UITableViewController {
     // MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        // Add an activity indicator
+        let indicatorView = self.activityIndicator(style: .medium, center: self.view.center)
+        view.addSubview(indicatorView)
+        indicatorView.startAnimating()
+
         async {
             await self.getAllProducts()
+
+            // Stop animating when product table is ready
+            indicatorView.stopAnimating()
+
+            tableView.backgroundView = emptyProducts
+            tableView.backgroundView?.isHidden = self.products.isEmpty ? false : true
+
             tableView.dataSource = dataSource
+
             self.updateSnapshot()
         }
 
         navigationController?.navigationBar.prefersLargeTitles = true
+    }
+
+    private func activityIndicator(style: UIActivityIndicatorView.Style = .medium,
+                                   frame: CGRect? = nil,
+                                   center: CGPoint? = nil) -> UIActivityIndicatorView {
+        let activityIndicatorView = UIActivityIndicatorView(style: style)
+        if let frame = frame { activityIndicatorView.frame = frame }
+        if let center = center { activityIndicatorView.center = center }
+        return activityIndicatorView
     }
 
     @IBAction private func backButton() {
@@ -84,7 +107,7 @@ class ProductTableViewController: UITableViewController {
         for valueProduct in dataProduct.keys {
             switch valueProduct {
             case "category":
-                var categoryData = dataProduct[valueProduct] as? String ?? ""
+                let categoryData = dataProduct[valueProduct] as? String ?? ""
                 if categoryData.caseInsensitiveCompare(self.category) == .orderedSame {
                     product.setCategory(category: dataProduct[valueProduct] as? String ?? "")
                 } else {
@@ -174,7 +197,7 @@ class ProductTableViewController: UITableViewController {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showDetail" {
+        if segue.identifier == "showDetails" {
             if let indexPath = tableView.indexPathForSelectedRow {
                 guard let destinationController = segue.destination as? ProductDetailsViewController else {
                     return
