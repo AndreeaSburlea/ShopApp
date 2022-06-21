@@ -10,7 +10,7 @@ import FirebaseDatabase
 
 class AddCommentViewController: UIViewController {
 
-    @IBOutlet private var commentTextField: UITextField!{
+    @IBOutlet private var commentTextField: UITextField! {
         didSet {
             commentTextField.becomeFirstResponder()
         }

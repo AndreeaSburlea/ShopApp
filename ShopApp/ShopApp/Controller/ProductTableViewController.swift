@@ -18,6 +18,7 @@ class ProductTableViewController: UITableViewController {
     private var ref: DatabaseReference!
     lazy var dataSource = configureDataSource()
     private var category = "Dress"
+    private var indicatorView = UIActivityIndicatorView(style: .medium)
 
     enum Section { case all }
 
@@ -46,27 +47,31 @@ class ProductTableViewController: UITableViewController {
         super.viewDidLoad()
 
         // Add an activity indicator
-        let indicatorView = self.activityIndicator(style: .medium, center: self.view.center)
+        indicatorView = self.activityIndicator(style: .medium, center: self.view.center)
         view.addSubview(indicatorView)
         indicatorView.startAnimating()
-
-        async {
-            await self.getAllProducts()
-
-            // Stop animating when product table is ready
-            indicatorView.stopAnimating()
-
-            tableView.backgroundView = emptyProducts
-            tableView.backgroundView?.isHidden = self.products.isEmpty ? false : true
-
-            tableView.dataSource = dataSource
-
-            self.updateSnapshot()
-        }
+        
+        self.getProducts()
 
         navigationController?.navigationBar.prefersLargeTitles = true
+
+        tableView.dataSource = dataSource
     }
 
+    // MARK: - Prepare - segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showDetails" {
+            if let indexPath = tableView.indexPathForSelectedRow {
+                guard let destinationController = segue.destination as? ProductDetailsViewController else {
+                    return
+                }
+
+                destinationController.setProduct(product: self.products[indexPath.row])
+            }
+        }
+    }
+
+    // MARK: - Activity indicator configure
     private func activityIndicator(style: UIActivityIndicatorView.Style = .medium,
                                    frame: CGRect? = nil,
                                    center: CGPoint? = nil) -> UIActivityIndicatorView {
@@ -76,6 +81,7 @@ class ProductTableViewController: UITableViewController {
         return activityIndicatorView
     }
 
+    // MARK: - Back button action
     @IBAction private func backButton() {
         let storyboard = UIStoryboard(name: "HomePage", bundle: nil)
         let homeViewController = storyboard.instantiateViewController(identifier: "HomeViewController")
@@ -93,6 +99,7 @@ class ProductTableViewController: UITableViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
     }
 
+    // MARK: - Update Snapshot
     func updateSnapshot(animatingChange: Bool = false) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
         snapshot.appendSections([.all])
@@ -104,15 +111,11 @@ class ProductTableViewController: UITableViewController {
     func getProductObject(dataProduct: [String: Any], name: String) -> Product {
         var product = Product()
         product.setName(name: name)
+        product.setCategory(category: self.category)
         for valueProduct in dataProduct.keys {
             switch valueProduct {
             case "category":
-                let categoryData = dataProduct[valueProduct] as? String ?? ""
-                if categoryData.caseInsensitiveCompare(self.category) == .orderedSame {
-                    product.setCategory(category: dataProduct[valueProduct] as? String ?? "")
-                } else {
-                    product.setCategory(category: "")
-                }
+                product.setCategory(category: dataProduct[valueProduct] as? String ?? "")
             case "price":
                 product.setPrice(price: dataProduct[valueProduct] as? String ?? "")
             case "type":
@@ -127,84 +130,50 @@ class ProductTableViewController: UITableViewController {
         return product
     }
 
-    // MARK: - Read images from a root
-    func getAllImages(root: String) async -> [UIImage] {
-        var images = [UIImage]()
+    // MARK: - Get image for a specific product
+    func getImages(root: String, completion: @escaping (UIImage) -> Void) {
         let storage = Storage.storage().reference()
+        let image = storage.child(root)
 
-        for i in 1...4 {
-            let roots = root + "\(i).jpeg"
-            let image = storage.child(roots)
-
-            do {
-                let data = try await image.data(maxSize: 1 * 512 * 512)
-
-                guard let imageData = UIImage(data: data) else {
-                    return []
-                }
-
-                images.append(imageData)
-            } catch {
-                print("Error from get imageFromRoot \(error):  \(roots)")
-            }
-        }
-
-        return images
-    }
-
-    // MARK: - Read data from firebase and append in products
-    func getAllProducts() async {
-        self.ref = Database.database().reference()
-        var product = Product()
-        var root: String = "images/"
-
-        // Get data from products table
-        let dataRead = await self.ref.child("products").observeSingleEventAndPreviousSiblingKey(of: .value)
-
-        let data = dataRead.0.value as? [String: Any]
-
-        // Check if data is null
-        guard let data = data else {
-            return
-        }
-
-        // For every product in products table
-        for dataKeys in data.keys {
-
-            // Go to every product reference
-            let imageData = await self.ref.child("products/\(dataKeys)").observeSingleEventAndPreviousSiblingKey(of: .value)
-
-            // Get the snapshot from imageData and convert in [String: Any]
-            let dataProduct = imageData.0.value as? [String: Any]
-
-            // check if the product is null
-            guard let dataProduct = dataProduct else {
+        image.getData(maxSize: 1 * 512 * 512) { data, error in
+            guard let data = data, let imageData = UIImage(data: data) else {
+                print(error as Any)
                 return
             }
 
-            // Create a product object
-            product = self.getProductObject(dataProduct: dataProduct, name: dataKeys)
-            if product.getCategory() != "" {
-
-                // Set the rot for every image
-                root = "images/" + dataKeys as String + "/" + dataKeys as String
-
-                // Set images for product
-                await product.setImages(images: self.getAllImages(root: root))
-                self.products.append(product)
-            }
+            completion(imageData)
         }
     }
 
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showDetails" {
-            if let indexPath = tableView.indexPathForSelectedRow {
-                guard let destinationController = segue.destination as? ProductDetailsViewController else {
-                    return
-                }
-                
-                destinationController.setProduct(product: self.products[indexPath.row])
+    // MARK: - Get products from database
+    func getProducts() {
+        let ref = Database.database().reference().child("products").queryOrdered(byChild: "category").queryEqual(toValue : self.category)
+
+        ref.observe(DataEventType.value, with: { snapshot in
+
+            guard let data = snapshot.value as? [String: Any] else {
+                self.indicatorView.stopAnimating()
+                self.tableView.backgroundView = self.emptyProducts
+                self.tableView.backgroundView?.isHidden = self.products.isEmpty ? false : true
+                print("not valid data")
+                return
             }
-        }
+
+            // For every product in products table
+            for dataKeys in data.keys {
+                guard let product = data[dataKeys] as? [String: Any] else { return }
+                self.getImages(root: "images/\(dataKeys)/\(dataKeys)1.jpeg") { image in
+                    var product = self.getProductObject(dataProduct: product, name: dataKeys)
+                    product.setImages(images: [image])
+
+                    self.products.append(product)
+
+                    if(self.products.count == data.keys.count) {
+                        self.updateSnapshot()
+                        self.indicatorView.stopAnimating()
+                    }
+                }
+            }
+        })
     }
 }

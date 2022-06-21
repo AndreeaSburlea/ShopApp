@@ -1,11 +1,12 @@
-//
+ //
  //  ProductImagesPageViewController.swift
  //  ShopApp
  //
  //  Created by Viviana Mesaros on 06.06.2022.
  //
 
- import UIKit
+import UIKit
+import FirebaseStorage
 
  protocol ProductImagesPageViewControllerDelegate: AnyObject {
      func didUpdatePageIndex(currentIndex: Int)
@@ -21,19 +22,45 @@
      override func viewDidLoad() {
          super.viewDidLoad()
 
-         // Set the data source to itself
-         dataSource = self
+         self.getImages()
 
          // Create the first walkthrough screen
          if let startingViewController = contentViewController(at: 0) {
              setViewControllers([startingViewController], direction: .forward, animated: true, completion: nil)
          }
-
-         delegate = self
      }
 
      func getCurrentIndex() -> Int { return self.currentIndex }
      func setProduct(product: Product) { self.product = product }
+
+     // MARK: - Get the rest of the images
+     func getImages() {
+         var imagesArray = [UIImage]()
+         let storage = Storage.storage().reference()
+         var rootImage = "images/\(product.getName())/\(product.getName())"
+
+         for i in 1...4 {
+             let root = rootImage + "\(i).jpeg"
+
+             let image = storage.child(root)
+
+             image.getData(maxSize: 1 * 512 * 512) { data, error in
+                 guard let data = data, let imageData = UIImage(data: data) else {
+                     print(error as Any)
+                     return
+                 }
+
+                 imagesArray.append(imageData)
+
+                 if imagesArray.count == 4 {
+                     print("FINISH")
+                     self.product.setImages(images: imagesArray)
+                     self.dataSource = self
+                     self.delegate = self
+                 }
+             }
+         }
+     }
  }
 
  extension ProductImagesPageViewController: UIPageViewControllerDataSource {
