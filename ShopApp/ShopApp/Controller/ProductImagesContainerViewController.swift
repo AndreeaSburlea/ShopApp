@@ -5,24 +5,24 @@
 //  Created by Viviana Mesaros on 06.06.2022.
 //
 
-import UIKit
+ import UIKit
 
-class ProductImagesContainerViewController: UIViewController {
+ class ProductImagesContainerViewController: UIViewController {
 
-    @IBOutlet private var contentImageView: UIImageView!
-    private var image = UIImage()
-    private var index = 0
+     @IBOutlet private var contentImageView: UIImageView!
+     private var image = UIImage()
+     private var index = 0
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+     override func viewDidLoad() {
+         super.viewDidLoad()
 
-        contentImageView.image = image
-    }
+         contentImageView.image = image
+     }
 
-    func configure(index: Int, image: UIImage) {
-        self.index = index
-        self.image = image
-    }
+     func configure(index: Int, image: UIImage) {
+         self.index = index
+         self.image = image
+     }
 
-    func getIndex() -> Int { return self.index }
-}
+     func getIndex() -> Int { return self.index }
+ }

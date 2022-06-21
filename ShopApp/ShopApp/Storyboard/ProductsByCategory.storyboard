@@ -172,7 +172,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="contentImageView" destination="N4s-L6-bxx" id="a4R-Os-hYg"/>
+                        <outlet property="contentImageView" destination="N4s-L6-bxx" id="nc7-PV-Zv0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Jz-YO-cTT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -504,8 +504,8 @@
                                             </tableViewCell>
                                         </prototypes>
                                     </tableView>
-                                    <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="RZt-a4-i0X">
-                                        <rect key="frame" x="143.5" y="637.5" width="115.5" height="26"/>
+                                    <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="4" translatesAutoresizingMaskIntoConstraints="NO" id="RZt-a4-i0X">
+                                        <rect key="frame" x="135" y="637.5" width="132.5" height="26"/>
                                     </pageControl>
                                 </subviews>
                                 <constraints>

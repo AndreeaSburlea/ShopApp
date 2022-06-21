@@ -8,9 +8,9 @@
 import UIKit
 import FirebaseDatabase
 import FirebaseAuth
+import FirebaseStorage
 
 class ProductDetailsViewController: UIViewController {
-
     @IBOutlet private var pageControl: UIPageControl!
     @IBOutlet private var priceLable: UILabel!
     @IBOutlet private var sizeButtons: [UIButton]!
@@ -21,33 +21,19 @@ class ProductDetailsViewController: UIViewController {
     private var walkthroughPageViewController: ProductImagesPageViewController?
     private var product = Product()
     private var sizeSelected = ""
-    private var favorites = [String]()
-    private var cart = [String: [String: String]]()
+    private var isFavorite = false
     private var comments = [String: String]()
+    private var ref = Database.database().reference()
 
     func setProduct(product: Product) { self.product = product }
-    func setFavorites() async { self.favorites = await getFavourites() }
-    func setCart() async { self.cart = await getCart() }
-    func setComments() async { self.comments = await getComments() }
 
     // MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        async {
-            if await self.getFavoriteProductIndex() == -1 {
-                likeButton.setImage(UIImage(systemName: "hand.thumbsup"), for: .normal)
-            } else {
-                likeButton.setImage(UIImage(systemName: "hand.thumbsup.fill"), for: .normal)
-            }
-
-            self.priceLable.text = " $ " + self.product.getPrice()
-            self.sizeFunction()
-            await self.setComments()
-
-            tableHeight.constant = CGFloat((self.comments.count) * 54)
-            self.commentsTableView.delegate = self
-            self.commentsTableView.dataSource = self
-        }
+        self.setFavoritesButton()
+        self.priceLable.text = " $ " + self.product.getPrice()
+        self.configureSizes()
+        self.setComments()
     }
 
     // MARK: - Prepare - segue
@@ -72,22 +58,24 @@ class ProductDetailsViewController: UIViewController {
 
     // MARK: - LikeAction for like button
     @IBAction private func likeAction(sender: UIButton) {
-        async {
-            do {
-                let name = self.product.getName()
-                let indexFav = await self.getFavoriteProductIndex()
-                guard let email = Auth.auth().currentUser?.email as? String else { return }
-                if indexFav != -1 {
-                    likeButton.setImage(UIImage(systemName: "hand.thumbsup"), for: .normal)
-                    favorites.remove(at: indexFav)
-                } else {
-                    likeButton.setImage(UIImage(systemName: "hand.thumbsup.fill"), for: .normal)
-                    favorites.append(name)
-                }
+        self.favoritesAction()
+    }
 
-                try await Database.database().reference().child("users/" + email.replacingOccurrences(of: ".", with: " ") + "/favourites").updateChildValues(["products": favorites])
-            } catch {
-                print(error)
+    // MARK: - Add to cart action
+    @IBAction private func addToCart(sender: UIButton) {
+        if self.sizeSelected == "" {
+            let allFieldRequired = UIAlertController(title: "Message",
+                                                     message: "First you have to choose a size!",
+                                                     preferredStyle: .alert)
+            allFieldRequired.addAction(UIAlertAction(title: String(localized: "Ok", comment: "Ok"), style: .cancel, handler: nil))
+            self.present(allFieldRequired, animated: true, completion: nil)
+        } else {
+            self.addToCartAction(size: self.sizeSelected) { messagge in
+                let allFieldRequired = UIAlertController(title: "Message",
+                                                         message: messagge,
+                                                         preferredStyle: .alert)
+                allFieldRequired.addAction(UIAlertAction(title: String(localized: "Ok", comment: "Ok"), style: .cancel, handler: nil))
+                self.present(allFieldRequired, animated: true, completion: nil)
             }
         }
     }
@@ -110,144 +98,90 @@ class ProductDetailsViewController: UIViewController {
         self.sizeSelected = name
     }
 
-    // MARK: - Add to cart action
-    @IBAction private func addToCart(sender: UIButton) {
-        async {
-            do {
-                let name = self.product.getName()
-                await self.setCart()
-                var messagge = ""
-                var isAdded = -1
-                var quantityForProduct = 0
+    func favoritesAction() {
+        guard let email = Auth.auth().currentUser?.email as? String else { return }
+        let emailRef = email.replacingOccurrences(of: ".", with: " ")
 
-                for data in self.cart.keys where data.elementsEqual(name) {
-                    guard let sizeForProduct = cart[data] else { return }
-                    let size = sizeForProduct["size"]
-                    if sizeSelected == size {
-                        guard let quantity = sizeForProduct["quantity"] else { return }
-                        quantityForProduct =  Int(quantity) ?? 0
-                        isAdded = 0
-                    } else { isAdded = 1 }
-                }
-
-                if self.sizeSelected == "" {
-                    messagge = "First you have to choose a size!"
-                } else {
-                        guard let email = Auth.auth().currentUser?.email as? String else { return }
-                        switch isAdded {
-                        case -1:
-                            messagge = "Product added to cart!"
-                        case 1:
-                            messagge = "The size was changed!"
-                        case 0:
-                            messagge = "The quantity is changed!"
-                        default:
-                           messagge = "Error from add to cart"
-                        }
-
-                    try await Database.database().reference().child("users/" + email.replacingOccurrences(of: ".", with: " ") + "/cart/\(product.getName())").setValue(["size": sizeSelected, "quantity": "\(quantityForProduct + 1)"])
-                }
-
-                let allFieldRequired = UIAlertController(title: "Message",
-                                                         message: messagge,
-                                                         preferredStyle: .alert)
-                allFieldRequired.addAction(UIAlertAction(title: String(localized: "Ok", comment: "Ok"), style: .cancel, handler: nil))
-                present(allFieldRequired, animated: true, completion: nil)
-            } catch {
-                print(error)
-            }
+        if !isFavorite {
+            self.ref.child("users/\(emailRef)/favourites/\(self.product.getName())").setValue("favorite")
+        } else {
+            Database.database().reference().child("users/\(emailRef)/favourites/\(self.product.getName())").removeValue()
         }
     }
 
+    // MARK: - Set the like button in the beginning
+    func setFavoritesButton() {
+        guard let email = Auth.auth().currentUser?.email as? String else { return }
+        let emailRef = email.replacingOccurrences(of: ".", with: " ")
 
-    // MARK: - Return favorites from user
-    func getFavourites() async -> [String] {
-        guard let email = Auth.auth().currentUser?.email as? String else { return [String]() }
-        let ref = Database.database().reference()
-        var productsName = [String]()
+        self.ref.child("users/\(emailRef)/favourites/\(self.product.getName())").observe(DataEventType.value, with: { snapshot in
 
-        let dataRead = await ref.child("users/" + email.replacingOccurrences(of: ".", with: " ") + "/favourites/products").observeSingleEventAndPreviousSiblingKey(of: .value)
-
-        let data = dataRead.0.value as? [String]
-        guard let data = data else { return [String]() }
-
-        for value in data {
-            productsName.append(value)
-        }
-
-        return productsName
-    }
-
-    // MARK: - Return cart from user
-    func getCart() async -> [String: [String: String]] {
-        guard let email = Auth.auth().currentUser?.email as? String else { return [String: [String: String]]() }
-        let ref = Database.database().reference()
-        var productsName = [String: [String: String]]()
-
-        let dataRead = await ref.child("users/" + email.replacingOccurrences(of: ".", with: " ") + "/cart").observeSingleEventAndPreviousSiblingKey(of: .value)
-
-        let data = dataRead.0.value as? [String: Any]
-
-        guard let data = data else { return [String: [String: String]]() }
-
-        // For every product get quantity and size
-        for productName in data.keys {
-            let productValues = await ref.child("users/" + email.replacingOccurrences(of: ".", with: " ") + "/cart/\(productName)").observeSingleEventAndPreviousSiblingKey(of: .value)
-
-            let productData = productValues.0.value as? [String: String]
-
-            guard let productData = productData else { return [String: [String: String]]() }
-
-            var sizeQuantity = [String: String]()
-            for sizeQuantityData in productData {
-                sizeQuantity[sizeQuantityData.key] = sizeQuantityData.value
+            guard let data = snapshot.value as? String else {
+                self.likeButton.setImage(UIImage(systemName: "hand.thumbsup"), for: .normal)
+                self.isFavorite = false
+                return
             }
 
-            productsName[productName] = sizeQuantity
-        }
+            self.likeButton.setImage(UIImage(systemName: "hand.thumbsup.fill"), for: .normal)
+            self.isFavorite = true
+        })
+    }
 
-        return productsName
+    func addToCartAction(size: String, completion: @escaping (String) -> Void) {
+        guard let email = Auth.auth().currentUser?.email as? String else { return }
+
+        let emailRef = email.replacingOccurrences(of: ".", with: " ")
+        let root = "users/\(emailRef)/cart/\(self.product.getName())"
+        self.ref.child(root).observeSingleEvent(of: DataEventType.value, with: { snapshot in
+
+            guard let data = snapshot.value as? [String: String] else {
+                self.ref.child(root).setValue(["size": size, "quantity": "1"])
+                completion("Product added to cart!")
+                return
+            }
+
+            let sizeProduct = data["size"]
+            if sizeProduct == size {
+                let quantityProduct = data["quantity"]
+                guard let quantityProduct = quantityProduct else { return }
+                let quantity = Int(quantityProduct) ?? 0
+                self.ref.child(root).setValue(["size": size, "quantity": "\(quantity + 1)"])
+                completion("The quantity is changed!")
+            } else {
+                self.ref.child(root).setValue(["size": size, "quantity": "1"])
+                completion("The size is changed!")
+            }
+        })
     }
 
     // MARK: - Return comments
-    func getComments() async -> [String: String] {
-        let ref = Database.database().reference()
+    func getComments(completion: @escaping () -> Void) {
         var productComments = [String: String]()
 
-        let dataRead = await ref.child("comments/\(product.getName())").observeSingleEventAndPreviousSiblingKey(of: .value)
+        ref.child("comments/\(self.product.getName())").observeSingleEvent(of: DataEventType.value, with: { snapshot in
 
-        let data = dataRead.0.value as? [String: String]
+            guard let data = snapshot.value as? [String: String] else { return }
 
-        guard let data = data else { return [String: String]() }
+            for value in data {
+                productComments[value.key] = value.value
+            }
 
-        for value in data {
-            productComments[value.key] = value.value
-        }
-
-        return productComments
+            self.comments = productComments
+            completion()
+        })
     }
 
-    // MARK: - Return index if current product is favorite
-    func getFavoriteProductIndex() async -> Int {
-        await self.setFavorites()
-        let name = self.product.getName()
-        if self.favorites.isEmpty {
-            return -1
+    // MARK: - Set commentes table
+    func setComments() {
+        self.getComments {
+            self.tableHeight.constant = CGFloat((self.comments.count) * 54)
+            self.commentsTableView.delegate = self
+            self.commentsTableView.dataSource = self
         }
-
-        for i in 0...(self.favorites.count - 1) {
-            if self.favorites[i] == name {
-                return i
-            }
-        }
-
-        return -1
     }
 
     // MARK: - Custom size buttons
-    func sizeFunction() {
-        self.priceLable.text = self.product.getPrice()
-        self.priceLable.textColor = UIColor.systemRed
+    func configureSizes() {
         for size in self.product.getSize() {
             switch size {
             case "XS" :
@@ -297,4 +231,4 @@ extension ProductDetailsViewController: UITableViewDataSource, UITableViewDelega
         cell.configure(email: email, comment: Array(self.comments)[indexPath.row].value)
         return cell
     }
-}
+ }
