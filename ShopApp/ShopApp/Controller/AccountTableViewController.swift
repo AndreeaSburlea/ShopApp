@@ -97,9 +97,8 @@ class AccountTableViewController: UITableViewController {
         }
 
         let storyboard = UIStoryboard(name: "Login", bundle: nil)
-        let loginViewController = storyboard.instantiateViewController(identifier: "LoginViewController")
-        let navigationController = self.navigationController
-        navigationController?.setViewControllers([loginViewController], animated: true)
+        let mainTabBarController = storyboard.instantiateViewController(identifier: "LoginViewController")
+        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(mainTabBarController)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

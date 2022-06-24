@@ -53,7 +53,6 @@ import FirebaseStorage
                  imagesArray.append(imageData)
 
                  if imagesArray.count == 4 {
-                     print("FINISH")
                      self.product.setImages(images: imagesArray)
                      self.dataSource = self
                      self.delegate = self

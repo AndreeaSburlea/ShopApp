@@ -42,7 +42,9 @@ class LoginViewController: UIViewController {
                 } else {
             // User is signed in
                     print("signed")
-                    self.navigateToHomeScreen()
+                    let storyboard = UIStoryboard(name: "HomePage", bundle: nil)
+                    let mainTabBarController = storyboard.instantiateViewController(identifier: "TabController")
+                    (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(mainTabBarController)
                 }
             }
         }
@@ -50,18 +52,5 @@ class LoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        if Auth.auth().currentUser != nil {
-            print("SIGNED IN")
-            navigateToHomeScreen()
-        } else {
-            print("LOGGED OUT")
-        }
-    }
-
-    func navigateToHomeScreen() {
-        let storyboard = UIStoryboard(name: "HomePage", bundle: nil)
-        let homeViewController = storyboard.instantiateViewController(identifier: "TabController")
-        let navigationController = self.navigationController
-        navigationController?.setViewControllers([homeViewController], animated: true)
     }
 }

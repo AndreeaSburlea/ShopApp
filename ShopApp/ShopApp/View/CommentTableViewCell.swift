@@ -16,4 +16,9 @@ class CommentTableViewCell: UITableViewCell {
         self.comment.text = comment
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.email.text = ""
+        self.comment.text = ""
+    }
 }

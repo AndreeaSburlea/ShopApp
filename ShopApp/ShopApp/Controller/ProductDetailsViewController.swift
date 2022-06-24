@@ -34,6 +34,9 @@ class ProductDetailsViewController: UIViewController {
         self.priceLable.text = " $ " + self.product.getPrice()
         self.configureSizes()
         self.setComments()
+
+        self.commentsTableView.delegate = self
+        self.commentsTableView.dataSource = self
     }
 
     // MARK: - Prepare - segue
@@ -158,7 +161,7 @@ class ProductDetailsViewController: UIViewController {
     func getComments(completion: @escaping () -> Void) {
         var productComments = [String: String]()
 
-        ref.child("comments/\(self.product.getName())").observeSingleEvent(of: DataEventType.value, with: { snapshot in
+        ref.child("comments/\(self.product.getName())").observe(DataEventType.value, with: { snapshot in
 
             guard let data = snapshot.value as? [String: String] else { return }
 
@@ -175,8 +178,7 @@ class ProductDetailsViewController: UIViewController {
     func setComments() {
         self.getComments {
             self.tableHeight.constant = CGFloat((self.comments.count) * 54)
-            self.commentsTableView.delegate = self
-            self.commentsTableView.dataSource = self
+            self.commentsTableView.reloadData()
         }
     }
 
