@@ -28,6 +28,7 @@
 		C7973D61283E57F700FDB86A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7973D5F283E57F700FDB86A /* LaunchScreen.storyboard */; };
 		C7973D69283E594B00FDB86A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C7973D68283E594B00FDB86A /* GoogleService-Info.plist */; };
 		C7A640362840D93100C034A7 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A640352840D93100C034A7 /* HomeViewController.swift */; };
+		C7CEA7D828649B1300A26C78 /* PersonalDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7CEA7D728649B1300A26C78 /* PersonalDataViewController.swift */; };
 		C7D858DB28534D6C000D3579 /* Cart.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7D858DA28534D6C000D3579 /* Cart.storyboard */; };
 		C7D858DD28534D84000D3579 /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7D858DC28534D84000D3579 /* Account.storyboard */; };
 		C7D858DF28534D9F000D3579 /* Like.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7D858DE28534D9F000D3579 /* Like.storyboard */; };
@@ -67,6 +68,7 @@
 		C7973D62283E57F700FDB86A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C7973D68283E594B00FDB86A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C7A640352840D93100C034A7 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		C7CEA7D728649B1300A26C78 /* PersonalDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalDataViewController.swift; sourceTree = "<group>"; };
 		C7D858DA28534D6C000D3579 /* Cart.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Cart.storyboard; sourceTree = "<group>"; };
 		C7D858DC28534D84000D3579 /* Account.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Account.storyboard; sourceTree = "<group>"; };
 		C7D858DE28534D9F000D3579 /* Like.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Like.storyboard; sourceTree = "<group>"; };
@@ -122,9 +124,13 @@
 				C7D858E028534ED2000D3579 /* AccountTableViewController.swift */,
 				C7D858F2285B2C15000D3579 /* CartTableViewController.swift */,
 				C7D858E2285355AA000D3579 /* DetailViewController.swift */,
-				C7D858EC28536AED000D3579 /* MapViewController.swift */,
+				C7D858EC28536AED000D3579 /* MapViewController.swift */, 
 				340F8B43285D1FF6002D5432 /* AddCommentViewController.swift */,
+				348F1239284E03D700AD33A3 /* ProductImagesPageViewController.swift */,
+				340F8B43285D1FF6002D5432 /* AddCommentViewController.swift */,
+				340F8B4A28605D55002D5432 /* ImagesProductViewController.swift */,
 				340F8B4C28605D9C002D5432 /* ProductImagesPageViewController.swift */,
+				C7CEA7D728649B1300A26C78 /* PersonalDataViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -353,6 +359,7 @@
 			files = (
 				34928BB22849EEA0007F2787 /* ProductByCategoryCell.swift in Sources */,
 				C7973D59283E57F300FDB86A /* LoginViewController.swift in Sources */,
+				C7CEA7D828649B1300A26C78 /* PersonalDataViewController.swift in Sources */,
 				C73876992845FEFA00C63CA5 /* CategoryCollectionViewCell.swift in Sources */,
 				C7973D55283E57F300FDB86A /* AppDelegate.swift in Sources */,
 				340F8B4F2860629E002D5432 /* ProductDetailsViewController.swift in Sources */,

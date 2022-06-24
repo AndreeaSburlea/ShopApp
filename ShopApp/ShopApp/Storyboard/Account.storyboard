@@ -42,6 +42,7 @@
                     <connections>
                         <segue destination="KI2-Ge-2RX" kind="presentation" identifier="showView" id="nWQ-E3-RKM"/>
                         <segue destination="zUl-Qi-5X3" kind="show" identifier="showMap" id="kRH-aQ-OBD"/>
+                        <segue destination="O0D-lu-52Q" kind="presentation" identifier="showData" id="WFh-gl-wc9"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z9r-gj-jDK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -195,6 +196,100 @@
             </objects>
             <point key="canvasLocation" x="3730.434782608696" y="176.78571428571428"/>
         </scene>
+        <!--Personal Data View Controller-->
+        <scene sceneID="JkF-lL-imW">
+            <objects>
+                <viewController id="O0D-lu-52Q" customClass="PersonalDataViewController" customModule="ShopApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="oH3-yE-Vhh">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1j7-zG-VoQ">
+                                <rect key="frame" x="185" y="20" width="44" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="880-qo-LEB"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain">
+                                    <imageReference key="image" image="chevron.down" catalog="system" symbolScale="large"/>
+                                    <color key="baseForegroundColor" name="Color-6"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <segue destination="E3e-UA-bhQ" kind="unwind" unwindAction="closeWithSegue:" id="pC5-4N-vvk"/>
+                                </connections>
+                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="26" translatesAutoresizingMaskIntoConstraints="NO" id="PUR-9t-lmk">
+                                <rect key="frame" x="110" y="385" width="194.5" height="72"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="19" translatesAutoresizingMaskIntoConstraints="NO" id="11K-e6-CaG">
+                                        <rect key="frame" x="0.0" y="0.0" width="194.5" height="23"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="mfK-cW-bBR">
+                                                <rect key="frame" x="0.0" y="1.5" width="18" height="20"/>
+                                                <color key="tintColor" name="Color-6"/>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eHn-EU-kNJ">
+                                                <rect key="frame" x="37" y="0.0" width="55" height="23"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="nameLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oKG-cl-IL3" userLabel="nameLabel">
+                                                <rect key="frame" x="111" y="0.0" width="83.5" height="23"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="hx5-Vw-7nG">
+                                        <rect key="frame" x="0.0" y="49" width="172.5" height="23"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mail.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="T2w-FS-tYA">
+                                                <rect key="frame" x="0.0" y="1" width="24" height="20.5"/>
+                                                <color key="tintColor" name="Color-6"/>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uCK-BJ-Ml3">
+                                                <rect key="frame" x="32" y="0.0" width="50.5" height="23"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="emailLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qnS-U7-hVE" userLabel="emailLabel">
+                                                <rect key="frame" x="90.5" y="0.0" width="82" height="23"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BL4-4o-ay3">
+                                <rect key="frame" x="147" y="180" width="120" height="120"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="eiw-cQ-LKD"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="PUR-9t-lmk" firstAttribute="centerY" secondItem="oH3-yE-Vhh" secondAttribute="centerY" id="N5F-ki-zWG"/>
+                            <constraint firstItem="1j7-zG-VoQ" firstAttribute="top" secondItem="oH3-yE-Vhh" secondAttribute="top" constant="20" id="WkM-Fr-Z0x"/>
+                            <constraint firstItem="1j7-zG-VoQ" firstAttribute="centerX" secondItem="oH3-yE-Vhh" secondAttribute="centerX" id="h7o-Ko-vrp"/>
+                            <constraint firstItem="PUR-9t-lmk" firstAttribute="centerX" secondItem="oH3-yE-Vhh" secondAttribute="centerX" id="vVN-ua-bsE"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="emailLabel" destination="qnS-U7-hVE" id="a4V-ar-jDf"/>
+                        <outlet property="nameLabel" destination="oKG-cl-IL3" id="vrC-2o-TcZ"/>
+                        <outlet property="photoImageView" destination="BL4-4o-ay3" id="zWI-yg-Rtd"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iyA-eH-KqZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="E3e-UA-bhQ" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="4634.7826086956529" y="535.71428571428567"/>
+        </scene>
         <!--Account-->
         <scene sceneID="NrP-H8-M97">
             <objects>
@@ -216,7 +311,9 @@
     <resources>
         <image name="chevron.down" catalog="system" width="128" height="72"/>
         <image name="girl2" width="500" height="500"/>
+        <image name="mail.fill" catalog="system" width="128" height="93"/>
         <image name="person.circle.fill" catalog="system" width="128" height="121"/>
+        <image name="person.fill" catalog="system" width="128" height="120"/>
         <namedColor name="Color-6">
             <color red="0.7803921568627451" green="0.2627450980392157" blue="0.2627450980392157" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
