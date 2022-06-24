@@ -53,7 +53,13 @@ class ProductTableViewController: UITableViewController {
         
         self.getProducts()
 
-        navigationController?.navigationBar.prefersLargeTitles = true
+        // IPad configure
+        tableView.cellLayoutMarginsFollowReadableWidth = true
+        
+        // Without separator in tableView
+        tableView.separatorStyle = .none
+
+        navigationController?.navigationBar.prefersLargeTitles = false
 
         tableView.dataSource = dataSource
     }

@@ -14,7 +14,7 @@
         <scene sceneID="Rh9-8Y-q0v">
             <objects>
                 <tableViewController storyboardIdentifier="ProductTableViewController" id="vv4-BG-5nX" customClass="ProductTableViewController" customModule="ShopApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="MVn-Mo-XmV">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="MVn-Mo-XmV">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -42,7 +42,7 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="9" translatesAutoresizingMaskIntoConstraints="NO" id="Cul-cM-Ykh">
-                                                    <rect key="frame" x="200" y="0.0" width="194" height="80.5"/>
+                                                    <rect key="frame" x="200" y="0.0" width="194" height="81"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5OU-5I-hoN">
                                                             <rect key="frame" x="0.0" y="0.0" width="62.5" height="25.5"/>
@@ -57,8 +57,8 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w5j-mg-e0h">
-                                                            <rect key="frame" x="0.0" y="63.5" width="34.5" height="17"/>
-                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                            <rect key="frame" x="0.0" y="63.5" width="38.5" height="17.5"/>
+                                                            <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="15"/>
                                                             <color key="textColor" systemColor="systemRedColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
@@ -134,11 +134,11 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="9YY-rh-7Md" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="PTZ-cU-JXI">
-                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
+                    <navigationBar key="navigationBar" contentMode="scaleAspectFit" id="PTZ-cU-JXI">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textAttributes key="titleTextAttributes">
-                            <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
                         </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -423,7 +423,9 @@
                                                         <rect key="frame" x="234" y="0.0" width="119" height="31"/>
                                                         <color key="tintColor" name="Color-2"/>
                                                         <state key="normal" title="Button"/>
-                                                        <buttonConfiguration key="configuration" style="plain" image="plus.message.fill" catalog="system"/>
+                                                        <buttonConfiguration key="configuration" style="plain">
+                                                            <imageReference key="image" image="plus.message.fill" catalog="system" symbolScale="medium"/>
+                                                        </buttonConfiguration>
                                                         <connections>
                                                             <segue destination="gvm-pV-7w3" kind="presentation" id="uhz-vc-Rpa"/>
                                                         </connections>
