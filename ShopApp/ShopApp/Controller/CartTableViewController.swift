@@ -14,6 +14,8 @@ class CartTableViewController: UITableViewController {
     // swiftlint:disable line_length
     // swiftlint:disable force_cast
 
+    @IBOutlet private var emptyCartView: UIView!
+
     lazy var dataSource = configureDataSource()
     var cartProducts = [CartProduct]()
     let ref = Database.database().reference()
@@ -60,8 +62,14 @@ class CartTableViewController: UITableViewController {
     // MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableView.dataSource = self.dataSource
+        updateSnapshot()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        cartProducts.removeAll()
         self.getAllCartProducts {
-            self.tableView.dataSource = self.dataSource
             self.updateSnapshot()
             self.addFooter()
             self.getTotal()
@@ -111,6 +119,7 @@ class CartTableViewController: UITableViewController {
 
     // MARK: - Gel all the products from the cart
     func getAllCartProducts(completion: @escaping () -> Void) {
+        cartProducts.removeAll()
         getCart {
             // For each cart product get the attributes from Firebase database: "products"
             for cartProduct in self.cartProducts {
@@ -157,7 +166,7 @@ class CartTableViewController: UITableViewController {
                     return
                 }
             }
-
+            
             self.cartProducts.sort(by: { $0.getName() < $1.getName() })
             completion()
         })

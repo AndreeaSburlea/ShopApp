@@ -77,6 +77,8 @@ class AccountTableViewController: UITableViewController {
         switch(indexPath.section, indexPath.row) {
         case (0, 2):
             performSegue(withIdentifier: "showMap", sender: self)
+        case(1, 0):
+            performSegue(withIdentifier: "showData", sender: self)
         case (1, 1):
             logout()
         default:
