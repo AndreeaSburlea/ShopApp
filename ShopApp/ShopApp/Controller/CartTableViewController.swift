@@ -48,7 +48,7 @@ class CartTableViewController: UITableViewController {
         guard let email = Auth.auth().currentUser?.email as? String else { return }
         let buttonPosition: CGPoint = sender.convert(CGPoint.zero, to: self.tableView)
         guard let indexPath1 = self.tableView.indexPathForRow(at: buttonPosition) else { return }
-         let key = ref.child("users/" + email.replacingOccurrences(of: ".", with: " ") + "/cart/" + cartProducts[indexPath1.row].getName())
+         let key = ref.child("users/" + email.replacingOccurrences(of: ".", with: " ") + "/cart/" + cartProducts[indexPath1.row].getName() + "/" + cartProducts[indexPath1.row].getSize())
         key.removeValue { error, _ in
             print(error as Any)
         }
@@ -73,14 +73,10 @@ class CartTableViewController: UITableViewController {
         guard let email = Auth.auth().currentUser?.email as? String else { return }
 
         // Get cart product key
-        guard let key = ref.child("users/" + email.replacingOccurrences(of: ".", with: " ") + "/cart/" + cartProducts[index].getName()).key else { return }
-
-        // Create new properties for cart product
-        let properties = ["quantity": String(quantity),
-                          "size": cartProducts[index].getSize()]
+        guard let key = ref.child("users/" + email.replacingOccurrences(of: ".", with: " ") + "/cart/" + cartProducts[index].getName() + "/" + cartProducts[index].getSize()).key else { return }
 
         // Create update command
-        let childUpdates = ["users/" + email.replacingOccurrences(of: ".", with: " ") + "/cart/\(key)": properties]
+        let childUpdates = ["users/" + email.replacingOccurrences(of: ".", with: " ") + "/cart/" + cartProducts[index].getName() + "/\(key)": String(quantity)]
 
         // Update
         ref.updateChildValues(childUpdates)
@@ -145,14 +141,15 @@ class CartTableViewController: UITableViewController {
             for key in cartValue.allKeys {
                 var cartProduct = CartProduct()
                 cartProduct.setName(name: key as! String)
-                if let properties = cartValue.value(forKey: key as! String) as? NSDictionary {
-
-                    // Set size and quantity for the cart product
-                    cartProduct.setSize(size: properties["size"] as! String)
-                    cartProduct.setQuantity(quantity: Int(properties["quantity"] as! String)!)
-
-                    // Add cart product to the list
-                    self.cartProducts.append(cartProduct)
+                if let propertyList = cartValue.value(forKey: key as! String) as? NSDictionary {
+                    // For each size-quantity pair
+                    for property in propertyList {
+                        // Set size and quantity for the cart product
+                        cartProduct.setSize(size: property.key as! String)
+                        cartProduct.setQuantity(quantity: Int(property.value as! String)!)
+                        // Add cart product to the list
+                        self.cartProducts.append(cartProduct)
+                    }
                 } else {
                     return
                 }
