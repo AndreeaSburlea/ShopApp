@@ -509,11 +509,28 @@
                                     <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="4" translatesAutoresizingMaskIntoConstraints="NO" id="RZt-a4-i0X">
                                         <rect key="frame" x="135" y="637.5" width="132.5" height="26"/>
                                     </pageControl>
+                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l8v-HP-fkB">
+                                        <rect key="frame" x="24" y="663.5" width="343" height="25"/>
+                                        <color key="backgroundColor" systemColor="systemGray6Color"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="25" id="nkJ-vQ-5tI"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="13"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <integer key="value" value="12"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </label>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="l8v-HP-fkB" firstAttribute="leading" secondItem="Y7b-RO-3xY" secondAttribute="leading" constant="24" id="20B-89-s5u"/>
                                     <constraint firstItem="Fuo-qn-ZY2" firstAttribute="top" secondItem="Y7b-RO-3xY" secondAttribute="top" id="2ZG-6f-Fmc"/>
                                     <constraint firstItem="r26-hH-MOu" firstAttribute="top" secondItem="RZt-a4-i0X" secondAttribute="bottom" constant="30" id="4na-jU-aGY"/>
                                     <constraint firstItem="Fuo-qn-ZY2" firstAttribute="top" secondItem="Y7b-RO-3xY" secondAttribute="top" id="9hB-Kd-y8A"/>
+                                    <constraint firstAttribute="trailing" secondItem="l8v-HP-fkB" secondAttribute="trailing" constant="36" id="FCo-Gq-1sT"/>
                                     <constraint firstItem="DGq-7J-mj7" firstAttribute="leading" secondItem="Y7b-RO-3xY" secondAttribute="leading" id="HAY-Kq-rNJ"/>
                                     <constraint firstItem="r26-hH-MOu" firstAttribute="width" secondItem="Y7b-RO-3xY" secondAttribute="width" multiplier="0.975186" id="IQO-Gr-DUT"/>
                                     <constraint firstAttribute="trailing" secondItem="Fuo-qn-ZY2" secondAttribute="trailing" id="NlH-sP-hd8"/>
@@ -526,6 +543,7 @@
                                     <constraint firstItem="r26-hH-MOu" firstAttribute="top" secondItem="DGq-7J-mj7" secondAttribute="bottom" id="bmB-I7-FD6"/>
                                     <constraint firstItem="DGq-7J-mj7" firstAttribute="height" secondItem="Y7b-RO-3xY" secondAttribute="height" multiplier="0.6" id="bmo-9Q-9KQ"/>
                                     <constraint firstItem="DGq-7J-mj7" firstAttribute="top" secondItem="Fuo-qn-ZY2" secondAttribute="bottom" id="c6r-ER-zuv"/>
+                                    <constraint firstItem="r26-hH-MOu" firstAttribute="top" secondItem="l8v-HP-fkB" secondAttribute="bottom" constant="5" id="dgc-9g-1p5"/>
                                     <constraint firstItem="w5H-cV-jbq" firstAttribute="top" secondItem="r26-hH-MOu" secondAttribute="bottom" constant="8" id="eAP-Rd-3Xn"/>
                                     <constraint firstItem="w5H-cV-jbq" firstAttribute="leading" secondItem="Y7b-RO-3xY" secondAttribute="leading" id="huA-Uv-IzJ"/>
                                     <constraint firstItem="w5H-cV-jbq" firstAttribute="width" secondItem="Y7b-RO-3xY" secondAttribute="width" multiplier="0.975186" id="jHx-FM-jcs"/>
@@ -546,10 +564,11 @@
                     </view>
                     <size key="freeformSize" width="414" height="1100"/>
                     <connections>
+                        <outlet property="addToCartMessageLabel" destination="l8v-HP-fkB" id="b4C-NY-Q8I"/>
                         <outlet property="commentsTableView" destination="w5H-cV-jbq" id="DOK-jJ-8zn"/>
                         <outlet property="likeButton" destination="mxT-QE-7I1" id="KAq-tz-lDX"/>
                         <outlet property="pageControl" destination="RZt-a4-i0X" id="Qpw-GV-bVz"/>
-                        <outlet property="priceLable" destination="ZG0-45-izb" id="s6H-x3-IJf"/>
+                        <outlet property="priceLabel" destination="ZG0-45-izb" id="dBF-Hs-kEm"/>
                         <outlet property="tableHeight" destination="wTz-Be-zwg" id="x1M-WO-ggc"/>
                         <outletCollection property="sizeButtons" destination="M7W-UG-1KQ" collectionClass="NSMutableArray" id="fnj-h2-c8A"/>
                         <outletCollection property="sizeButtons" destination="vTT-Yx-vqk" collectionClass="NSMutableArray" id="nto-xf-jcX"/>

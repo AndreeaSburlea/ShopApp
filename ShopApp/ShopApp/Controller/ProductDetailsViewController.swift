@@ -12,7 +12,8 @@ import FirebaseStorage
 
 class ProductDetailsViewController: UIViewController {
     @IBOutlet private var pageControl: UIPageControl!
-    @IBOutlet private var priceLable: UILabel!
+    @IBOutlet private var priceLabel: UILabel!
+    @IBOutlet private var addToCartMessageLabel: UILabel!
     @IBOutlet private var sizeButtons: [UIButton]!
     @IBOutlet private var likeButton: UIButton!
     @IBOutlet private var commentsTableView: UITableView!
@@ -27,16 +28,23 @@ class ProductDetailsViewController: UIViewController {
 
     func setProduct(product: Product) { self.product = product }
 
+    func configureMessageLabel() {
+        addToCartMessageLabel.layer.backgroundColor = UIColor.systemGray6.cgColor
+        addToCartMessageLabel.layer.masksToBounds = true
+        addToCartMessageLabel.layer.cornerRadius = 9
+    }
+
     // MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setFavoritesButton()
-        self.priceLable.text = " $ " + self.product.getPrice()
-        self.configureSizes()
-        self.setComments()
+        configureMessageLabel()
+        setFavoritesButton()
+        priceLabel.text = " $ " + self.product.getPrice()
+        configureSizes()
+        setComments()
 
-        self.commentsTableView.delegate = self
-        self.commentsTableView.dataSource = self
+        commentsTableView.delegate = self
+        commentsTableView.dataSource = self
     }
 
     // MARK: - Prepare - segue
@@ -70,15 +78,18 @@ class ProductDetailsViewController: UIViewController {
             let allFieldRequired = UIAlertController(title: "Message",
                                                      message: "First you have to choose a size!",
                                                      preferredStyle: .alert)
-            allFieldRequired.addAction(UIAlertAction(title: String(localized: "Ok", comment: "Ok"), style: .cancel, handler: nil))
             self.present(allFieldRequired, animated: true, completion: nil)
+
+            // dismiss after 2 seconds
+            let timeOfDismissal = DispatchTime.now() + 2
+            DispatchQueue.main.asyncAfter(deadline: timeOfDismissal) {
+                allFieldRequired.dismiss(animated: true, completion: nil)
+            }
         } else {
-            self.addToCartAction(size: self.sizeSelected) { messagge in
-                let allFieldRequired = UIAlertController(title: "Message",
-                                                         message: messagge,
-                                                         preferredStyle: .alert)
-                allFieldRequired.addAction(UIAlertAction(title: String(localized: "Ok", comment: "Ok"), style: .cancel, handler: nil))
-                self.present(allFieldRequired, animated: true, completion: nil)
+            self.addToCartAction(size: self.sizeSelected) { text in
+                self.addToCartMessageLabel.text = text
+                self.addToCartMessageLabel.alpha = 0.65
+                UIView.animate(withDuration: 4.0) {  self.addToCartMessageLabel.alpha = 0 }
             }
         }
     }
@@ -134,26 +145,18 @@ class ProductDetailsViewController: UIViewController {
         guard let email = Auth.auth().currentUser?.email as? String else { return }
 
         let emailRef = email.replacingOccurrences(of: ".", with: " ")
-        let root = "users/\(emailRef)/cart/\(self.product.getName())"
+        let root = "users/\(emailRef)/cart/\(self.product.getName())/\(size)"
         self.ref.child(root).observeSingleEvent(of: DataEventType.value, with: { snapshot in
 
-            guard let data = snapshot.value as? [String: String] else {
-                self.ref.child(root).setValue(["size": size, "quantity": "1"])
+            guard let data = snapshot.value as? String else {
+                self.ref.child(root).setValue("1")
                 completion("Product added to cart!")
                 return
             }
 
-            let sizeProduct = data["size"]
-            if sizeProduct == size {
-                let quantityProduct = data["quantity"]
-                guard let quantityProduct = quantityProduct else { return }
-                let quantity = Int(quantityProduct) ?? 0
-                self.ref.child(root).setValue(["size": size, "quantity": "\(quantity + 1)"])
-                completion("The quantity is changed!")
-            } else {
-                self.ref.child(root).setValue(["size": size, "quantity": "1"])
-                completion("The size is changed!")
-            }
+            let quantity = Int(data) ?? 0
+            self.ref.child("\(root)").setValue("\(quantity + 1)")
+            completion("Product added to cart!")
         })
     }
 
