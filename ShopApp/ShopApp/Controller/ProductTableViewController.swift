@@ -17,12 +17,15 @@ class ProductTableViewController: UITableViewController {
     private var products = [Product]()
     private var ref: DatabaseReference!
     lazy var dataSource = configureDataSource()
-    private var category = "Dress"
+    private var category : String!
+    private var type : String!
     private var indicatorView = UIActivityIndicatorView(style: .medium)
 
     enum Section { case all }
 
     func setCategory(category: String) { self.category = category }
+
+    func setType(type: String) { self.type = type }
 
     func configureDataSource() -> UITableViewDiffableDataSource<Section, Product > {
         let cellIdentifier = "productcell"
@@ -168,15 +171,16 @@ class ProductTableViewController: UITableViewController {
             // For every product in products table
             for dataKeys in data.keys {
                 guard let product = data[dataKeys] as? [String: Any] else { return }
-                self.getImages(root: "images/\(dataKeys)/\(dataKeys)1.jpeg") { image in
-                    var product = self.getProductObject(dataProduct: product, name: dataKeys)
-                    product.setImages(images: [image])
-
-                    self.products.append(product)
-
-                    if(self.products.count == data.keys.count) {
+                guard let productType = product["type"] as? String else { return }
+                if productType == self.type {
+                    self.getImages(root: "images/\(dataKeys)/\(dataKeys)1.jpeg") { image in
+                        var product = self.getProductObject(dataProduct: product, name: dataKeys)
+                        product.setImages(images: [image])
+                        self.products.append(product)
                         self.updateSnapshot()
-                        self.indicatorView.stopAnimating()
+                        if self.products.count == 1 {
+                            self.indicatorView.stopAnimating()
+                        }
                     }
                 }
             }

@@ -18,8 +18,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="bbJ-0P-A8q">
+                                <rect key="frame" x="0.0" y="88" width="414" height="32"/>
+                                <segments>
+                                    <segment title="Female"/>
+                                    <segment title="Male"/>
+                                </segments>
+                                <connections>
+                                    <action selector="segmentedControlTapped:" destination="gas-fw-cYn" eventType="valueChanged" id="GHN-Pe-fui"/>
+                                </connections>
+                            </segmentedControl>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="WnO-W0-KkM">
-                                <rect key="frame" x="30" y="98" width="354" height="705"/>
+                                <rect key="frame" x="30" y="128" width="354" height="675"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="R46-Qp-Yik">
                                     <size key="itemSize" width="159" height="204"/>
@@ -44,19 +54,23 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="LTi-5P-nFv" firstAttribute="trailing" secondItem="WnO-W0-KkM" secondAttribute="trailing" constant="30" id="5Ad-PK-9Ta"/>
+                            <constraint firstItem="bbJ-0P-A8q" firstAttribute="top" secondItem="LTi-5P-nFv" secondAttribute="top" id="ICK-HU-4Qt"/>
+                            <constraint firstItem="bbJ-0P-A8q" firstAttribute="leading" secondItem="LTi-5P-nFv" secondAttribute="leading" id="RwF-0G-J4c"/>
                             <constraint firstItem="WnO-W0-KkM" firstAttribute="leading" secondItem="LTi-5P-nFv" secondAttribute="leading" constant="30" id="bai-Gv-jHB"/>
+                            <constraint firstItem="LTi-5P-nFv" firstAttribute="trailing" secondItem="bbJ-0P-A8q" secondAttribute="trailing" id="cmo-y8-KOy"/>
                             <constraint firstItem="LTi-5P-nFv" firstAttribute="bottom" secondItem="WnO-W0-KkM" secondAttribute="bottom" constant="10" id="syr-zp-6YN"/>
-                            <constraint firstItem="WnO-W0-KkM" firstAttribute="top" secondItem="LTi-5P-nFv" secondAttribute="top" constant="10" id="vuF-S0-qvD"/>
+                            <constraint firstItem="WnO-W0-KkM" firstAttribute="top" secondItem="bbJ-0P-A8q" secondAttribute="top" constant="40" id="vuF-S0-qvD"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="1JW-Fk-2wR"/>
                     <connections>
                         <outlet property="collectionView" destination="WnO-W0-KkM" id="Ld2-53-32q"/>
+                        <outlet property="segmentedControl" destination="bbJ-0P-A8q" id="umO-0X-R37"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gMV-Tz-NKi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4481.159420289855" y="-213.61607142857142"/>
+            <point key="canvasLocation" x="4479.7101449275369" y="-213.61607142857142"/>
         </scene>
         <!--Home-->
         <scene sceneID="s6j-TT-OqB">
