@@ -15,6 +15,8 @@ class HomeViewController: UIViewController {
     // swiftlint:disable force_cast
 
     var categoryList = [Category]()
+    var categoryListType = [Category]()
+    var type: String!
     private let ref = Database.database().reference()
     private let storage = Storage.storage().reference()
 
@@ -23,6 +25,31 @@ class HomeViewController: UIViewController {
     }
 
     @IBOutlet private var collectionView: UICollectionView!
+
+    @IBOutlet private var segmentedControl: UISegmentedControl!
+
+    @IBAction private func segmentedControlTapped(_ sender: Any) {
+        categoryListType.removeAll()
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            for category in categoryList {
+                if category.isFemale() {
+                    categoryListType.append(category)
+                    }
+            }
+            type = "female"
+        case 1:
+            for category in categoryList {
+                if category.isMale() {
+                    categoryListType.append(category)
+                }
+            }
+            type = "male"
+        default:
+            break
+        }
+        self.collectionView.reloadData()
+    }
 
     // Logout the user
     @IBAction private func logout() {
@@ -56,39 +83,51 @@ class HomeViewController: UIViewController {
         self.getAllCategories()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        print("SEG: \(segmentedControl.selectedSegmentIndex), TYPE:\(type)")
+    }
+
     // MARK: - Get all categories from database
     func getAllCategories() {
         // Read data from database/categories/
         ref.child("categories/").observeSingleEvent(of: .value, with: { snapshot in
-            // Get categories and images as dictionary
-            let value = snapshot.value as? [String: String]
+            let value = snapshot.value as? NSDictionary
             // Unwrap the dictionary
             if let categories = value {
-                // For each category element get the attributes
-                for category in categories {
+                // For each category:
+                for category in categories.allKeys {
                     var newCategory = Category()
-                    // Set the name of category
-                    newCategory.setName(name: category.key)
-                    // Create the path to retrieve the image
-                    let path = category.value as String
-                    // Call the getImage method and process the image in the completion block
-                    self.getImage(path: path, completion: { image in
-                        // Set image of the category
-                        newCategory.setImage(image: image)
-                        // Append the category to the list
-                        self.categoryList.append(newCategory)
-                        // If we retrieved all the categories, sort the list and reload data
-                        if self.categoryList.count == categories.count {
-                            self.categoryList.sort(by: { $0.getName() < $1.getName() })
-                            self.collectionView.reloadData()
+                    // Set name
+                    newCategory.setName(name: category as! String)
+                    // Get type and image as NSDictionary
+                    if let properties = categories[category] as? NSDictionary {
+                        // Set type
+                        if let type = properties["type"] as? [String: Bool] {
+                            newCategory.setType(type: type)
                         }
-                    })
+                        // Get image path
+                        if let path = properties["image"] as? String {
+                        // Call the getImage method and process the image in the completion block
+                            self.getImage(path: path, completion: { image in
+                                // Set image of the category
+                                newCategory.setImage(image: image)
+                                // Append the category to the list
+                                self.categoryList.append(newCategory)
+                                // If we retrieved all the categories, sort the list and reload data
+                                if self.categoryList.count == categories.count {
+                                    self.categoryList.sort(by: { $0.getName() < $1.getName() })
+                                    self.segmentedControlTapped(self.segmentedControl)
+                                }
+                            })
+                        }
+                    }
                 }
             }
-    }) { error in
-        print(error.localizedDescription)
-      }
-}
+        }) { error in
+            print(error.localizedDescription)
+          }
+    }
 
     // MARK: - Get the image based on the path
     func getImage(path: String, completion: @escaping (UIImage) -> Void) {
@@ -112,7 +151,8 @@ extension HomeViewController: UICollectionViewDelegate {
             return
         }
 
-        productController.setCategory(category: categoryList[indexPath.row].getName())
+        productController.setCategory(category: categoryListType[indexPath.row].getName())
+        productController.setType(type: type)
         let navigationController = self.navigationController
         navigationController?.setViewControllers([productController], animated: true)
     }
@@ -120,13 +160,13 @@ extension HomeViewController: UICollectionViewDelegate {
 
 extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return categoryList.count
+        categoryListType.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cellIdenntifier = "CategoryCollectionViewCell"
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdenntifier, for: indexPath) as! CategoryCollectionViewCell
-        cell.configure(with: categoryList[indexPath.row].getImage(), text: categoryList[indexPath.row].getName())
+        cell.configure(with: categoryListType[indexPath.row].getImage(), text: categoryListType[indexPath.row].getName())
 
         return cell
     }
@@ -134,6 +174,6 @@ extension HomeViewController: UICollectionViewDataSource {
 
 extension HomeViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width / 3, height: 150)
+        CGSize(width: UIScreen.main.bounds.width / 3, height: 150)
     }
 }
