@@ -265,14 +265,17 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BL4-4o-ay3">
-                                <rect key="frame" x="147" y="180" width="120" height="120"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BL4-4o-ay3">
+                                <rect key="frame" x="147" y="190" width="120" height="110"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="eiw-cQ-LKD"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="BL4-4o-ay3" firstAttribute="top" secondItem="1j7-zG-VoQ" secondAttribute="bottom" constant="140" id="10G-KO-Trt"/>
+                            <constraint firstItem="BL4-4o-ay3" firstAttribute="centerX" secondItem="oH3-yE-Vhh" secondAttribute="centerX" id="1Xv-a1-hKA"/>
+                            <constraint firstItem="BL4-4o-ay3" firstAttribute="leading" secondItem="eiw-cQ-LKD" secondAttribute="leading" constant="147" id="9XB-af-HUy"/>
+                            <constraint firstItem="PUR-9t-lmk" firstAttribute="top" secondItem="BL4-4o-ay3" secondAttribute="bottom" constant="85" id="BQt-Mu-blY"/>
                             <constraint firstItem="PUR-9t-lmk" firstAttribute="centerY" secondItem="oH3-yE-Vhh" secondAttribute="centerY" id="N5F-ki-zWG"/>
                             <constraint firstItem="1j7-zG-VoQ" firstAttribute="top" secondItem="oH3-yE-Vhh" secondAttribute="top" constant="20" id="WkM-Fr-Z0x"/>
                             <constraint firstItem="1j7-zG-VoQ" firstAttribute="centerX" secondItem="oH3-yE-Vhh" secondAttribute="centerX" id="h7o-Ko-vrp"/>
