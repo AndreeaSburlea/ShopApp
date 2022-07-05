@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="tXh-D3-Pgq">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
@@ -15,11 +14,11 @@
             <objects>
                 <viewController storyboardIdentifier="HomeViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="gas-fw-cYn" customClass="HomeViewController" customModule="ShopApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="plg-2N-wUJ">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="bbJ-0P-A8q">
-                                <rect key="frame" x="0.0" y="88" width="414" height="32"/>
+                                <rect key="frame" x="0.0" y="44" width="600" height="32"/>
                                 <segments>
                                     <segment title="Female"/>
                                     <segment title="Male"/>
@@ -29,7 +28,7 @@
                                 </connections>
                             </segmentedControl>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="WnO-W0-KkM">
-                                <rect key="frame" x="30" y="128" width="354" height="675"/>
+                                <rect key="frame" x="30" y="84" width="540" height="457"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="R46-Qp-Yik">
                                     <size key="itemSize" width="159" height="204"/>
@@ -49,6 +48,75 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="wCf-tL-WfH">
+                                <rect key="frame" x="0.0" y="54" width="428" height="789"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="searchProductCell" rowHeight="192" id="sk8-fb-PFX" customClass="ProductByCategoryCell" customModule="ShopApp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="44.5" width="428" height="192"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sk8-fb-PFX" id="ggB-g2-c0U">
+                                            <rect key="frame" x="0.0" y="0.0" width="428" height="192"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="23" translatesAutoresizingMaskIntoConstraints="NO" id="ZpJ-PY-50I">
+                                                    <rect key="frame" x="20" y="10" width="398" height="172"/>
+                                                    <subviews>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aUo-GO-t0M">
+                                                            <rect key="frame" x="0.0" y="0.0" width="170" height="172"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="190" id="6a1-NU-GXs"/>
+                                                                <constraint firstAttribute="width" constant="170" id="93D-nj-8hO"/>
+                                                            </constraints>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                    <integer key="value" value="20"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                        </imageView>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="9" translatesAutoresizingMaskIntoConstraints="NO" id="480-f6-1cI">
+                                                            <rect key="frame" x="193" y="0.0" width="205" height="81"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZJo-j4-fHy">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="62.5" height="25.5"/>
+                                                                    <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="22"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Size" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gYH-gH-p6X">
+                                                                    <rect key="frame" x="0.0" y="34.5" width="35" height="20"/>
+                                                                    <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="17"/>
+                                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Price" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4HD-jv-qN6">
+                                                                    <rect key="frame" x="0.0" y="63.5" width="38.5" height="17.5"/>
+                                                                    <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="15"/>
+                                                                    <color key="textColor" systemColor="systemRedColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                        </stackView>
+                                                    </subviews>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="ZpJ-PY-50I" firstAttribute="top" secondItem="ggB-g2-c0U" secondAttribute="top" constant="10" id="ATZ-ha-7cD"/>
+                                                <constraint firstAttribute="bottom" secondItem="ZpJ-PY-50I" secondAttribute="bottom" constant="10" id="Sks-37-QDz"/>
+                                                <constraint firstAttribute="trailing" secondItem="ZpJ-PY-50I" secondAttribute="trailing" constant="10" id="WMr-1c-Gc3"/>
+                                                <constraint firstItem="ZpJ-PY-50I" firstAttribute="leading" secondItem="ggB-g2-c0U" secondAttribute="leading" constant="20" id="sFZ-c9-WOQ"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="productImage" destination="aUo-GO-t0M" id="RiK-CX-GcD"/>
+                                            <outlet property="productName" destination="ZJo-j4-fHy" id="PvK-0x-87T"/>
+                                            <outlet property="productPrice" destination="4HD-jv-qN6" id="47C-bQ-uCB"/>
+                                            <outlet property="productSize" destination="gYH-gH-p6X" id="u9r-Ll-ggJ"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="LTi-5P-nFv"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -64,13 +132,14 @@
                     </view>
                     <navigationItem key="navigationItem" id="1JW-Fk-2wR"/>
                     <connections>
-                        <outlet property="collectionView" destination="WnO-W0-KkM" id="Ld2-53-32q"/>
+                        <outlet property="categoriesCollectionView" destination="WnO-W0-KkM" id="Ld2-53-32q"/>
+                        <outlet property="productsTableView" destination="wCf-tL-WfH" id="QxV-nR-W8g"/>
                         <outlet property="segmentedControl" destination="bbJ-0P-A8q" id="umO-0X-R37"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gMV-Tz-NKi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4479.7101449275369" y="-213.61607142857142"/>
+            <point key="canvasLocation" x="4474.7663551401865" y="-217.71058315334776"/>
         </scene>
         <!--Home-->
         <scene sceneID="s6j-TT-OqB">
@@ -81,7 +150,7 @@
                     </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="r4R-zi-Na7">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="44" width="428" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -153,6 +222,9 @@
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

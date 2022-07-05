@@ -29,7 +29,6 @@ class LikesTableViewController: UITableViewController {
 
         self.getLikesProducts()
 
-        navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.hidesBarsOnSwipe = true
 
         self.collectionView.delegate = self
@@ -44,9 +43,6 @@ class LikesTableViewController: UITableViewController {
 
         // To hide when scoll
         navigationController?.hidesBarsOnSwipe = true
-
-        // Title to be large (not just in the begining )
-        navigationController?.navigationBar.prefersLargeTitles = true
     }
 
     // MARK: - Activity indicator configure

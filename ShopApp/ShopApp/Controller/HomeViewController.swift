@@ -14,9 +14,12 @@ class HomeViewController: UIViewController {
     // swiftlint:disable line_length
     // swiftlint:disable force_cast
 
+    var searchController: UISearchController!
     var categoryList = [Category]()
     var categoryListType = [Category]()
+    var productList = [Product]()
     var type: String!
+    lazy var productsDataSource = configureDataSource()
     private let ref = Database.database().reference()
     private let storage = Storage.storage().reference()
 
@@ -24,7 +27,9 @@ class HomeViewController: UIViewController {
         case all
     }
 
-    @IBOutlet private var collectionView: UICollectionView!
+    @IBOutlet private var productsTableView: UITableView!
+
+    @IBOutlet private var categoriesCollectionView: UICollectionView!
 
     @IBOutlet private var segmentedControl: UISegmentedControl!
 
@@ -48,7 +53,7 @@ class HomeViewController: UIViewController {
         default:
             break
         }
-        self.collectionView.reloadData()
+        self.categoriesCollectionView.reloadData()
     }
 
     // Logout the user
@@ -70,22 +75,39 @@ class HomeViewController: UIViewController {
     // MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Set the navigation bar title
+        if let name = Auth.auth().currentUser?.displayName as? String {
+            self.navigationItem.title = "Welcome \(name)! "
+        } else {
+            self.navigationItem.title = "Welcome!"
+        }
 
+        searchController = UISearchController(searchResultsController: nil)
+        self.navigationItem.searchController = searchController
+        self.searchController.searchBar.delegate = self
+
+        productsTableView.isHidden = true
         let cellIdentifier = "CategoryCollectionViewCell"
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: UIScreen.main.bounds.width / 3, height: 120)
-        collectionView.collectionViewLayout = layout
+        categoriesCollectionView.collectionViewLayout = layout
 
-        self.collectionView.register(CategoryCollectionViewCell.nib(), forCellWithReuseIdentifier: cellIdentifier)
-        self.collectionView.delegate = self
-        self.collectionView.dataSource = self
+        // Without separator in tableView
+        productsTableView.separatorStyle = .none
+
+        self.categoriesCollectionView.register(CategoryCollectionViewCell.nib(), forCellWithReuseIdentifier: cellIdentifier)
+        self.categoriesCollectionView.delegate = self
+        self.categoriesCollectionView.dataSource = self
+
+        productsTableView.dataSource = productsDataSource
+        productsTableView.delegate = self
 
         self.getAllCategories()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        print("SEG: \(segmentedControl.selectedSegmentIndex), TYPE:\(type)")
     }
 
     // MARK: - Get all categories from database
@@ -109,7 +131,7 @@ class HomeViewController: UIViewController {
                         // Get image path
                         if let path = properties["image"] as? String {
                         // Call the getImage method and process the image in the completion block
-                            self.getImage(path: path, completion: { image in
+                            self.retrieveImage(path: path, completion: { image in
                                 // Set image of the category
                                 newCategory.setImage(image: image)
                                 // Append the category to the list
@@ -130,15 +152,92 @@ class HomeViewController: UIViewController {
     }
 
     // MARK: - Get the image based on the path
-    func getImage(path: String, completion: @escaping (UIImage) -> Void) {
+    func retrieveImage(path: String, completion: @escaping (UIImage) -> Void) {
         let image = storage.child(path)
-        image.getData(maxSize: 1 * 100 * 100) { data, error in
+        image.getData(maxSize: 1 * 512 * 512) { data, error in
             guard let data = data, let imageData = UIImage(data: data) else {
                 print(error as Any)
                 return
             }
             completion(imageData)
         }
+    }
+
+    func updateSnapshot(animatingChange: Bool = false) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
+        snapshot.appendSections([.all])
+        snapshot.appendItems(self.productList, toSection: .all)
+        self.addBackgroundImageTableView()
+        productsDataSource.apply(snapshot, animatingDifferences: animatingChange)
+    }
+
+    // MARK: - Return all the products based on search criteria
+    func getSearchedProducts() {
+        productList.removeAll()
+        updateSnapshot()
+        ref.child("products/").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let data = snapshot.value as? [String: Any] else { return }
+            // Get the text from search bar
+            guard let searchText = self.searchController.searchBar.text as? String else { return }
+            // For each product name
+            for dataKeys in data.keys {
+                // Unwrap product properties into product
+                if let product = data[dataKeys] as? [String: Any] {
+                    // Unwrap product name into title
+                    if let title = dataKeys as? String {
+                        // If product name contains the searched criteria
+                        if title.contains(searchText.uppercased()) {
+                            // Create new product with given properties
+                            var newProduct = self.getProductObject(dataProduct: product, name: dataKeys)
+                            // Set image of product
+                            self.retrieveImage(path: "images/\(dataKeys)/\(dataKeys)1.jpeg") { image in
+                                newProduct.setImages(images: [image])
+                                // Add product to product list
+                                self.productList.append(newProduct)
+                                self.updateSnapshot()
+                            }
+                        }
+                    }
+                }
+            }
+        })
+    }
+
+    // MARK: - Create and return a product with properties
+    func getProductObject(dataProduct: [String: Any], name: String) -> Product {
+        var product = Product()
+        product.setName(name: name)
+        for valueProduct in dataProduct.keys {
+            switch valueProduct {
+            case "category":
+                product.setCategory(category: dataProduct[valueProduct] as? String ?? "")
+            case "price":
+                product.setPrice(price: dataProduct[valueProduct] as? String ?? "")
+            case "type":
+                product.setType(type: dataProduct[valueProduct] as? String ?? "")
+            case "size":
+                product.setSize(size: dataProduct[valueProduct] as? [String] ?? [])
+            default:
+                return Product()
+            }
+        }
+
+        return product
+    }
+
+    // Add an image for an empty product list
+    func addBackgroundImageTableView() {
+        let width = UIScreen.main.bounds.size.width
+        let height = UIScreen.main.bounds.size.height
+        let imageViewBackground = UIImageView(frame: CGRect(x: 0, y: 0, width: width, height: height))
+        if self.productList.isEmpty {
+            imageViewBackground.image = UIImage(named: "empty")
+        } else {
+            imageViewBackground.image = UIImage()
+        }
+
+        imageViewBackground.contentMode = UIView.ContentMode.scaleAspectFit
+        self.productsTableView.backgroundView = imageViewBackground
     }
 }
 
@@ -175,5 +274,54 @@ extension HomeViewController: UICollectionViewDataSource {
 extension HomeViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         CGSize(width: UIScreen.main.bounds.width / 3, height: 150)
+    }
+}
+
+extension HomeViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        categoriesCollectionView.isHidden = true
+        productsTableView.isHidden = false
+        segmentedControl.isHidden = true
+        getSearchedProducts()
+    }
+
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        productList.removeAll()
+        updateSnapshot()
+        categoriesCollectionView.isHidden = false
+        productsTableView.isHidden = true
+        segmentedControl.isHidden = false
+    }
+}
+
+extension HomeViewController: UITableViewDelegate {
+    func configureDataSource() -> UITableViewDiffableDataSource<Section, Product > {
+        let cellIdentifier = "searchProductCell"
+        let dataSource = UITableViewDiffableDataSource<Section, Product>(
+            tableView: productsTableView,
+            cellProvider: {  tableView, indexPath, product in
+                let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? ProductByCategoryCell
+                cell?.configure(productName: product.getName(),
+                                productPrice: product.getPrice(),
+                                productSize: product.getSize(),
+                                productImage: product.getImages()[0])
+
+                return cell
+            }
+        )
+
+        return dataSource
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let storyboard = UIStoryboard(name: "ProductsByCategory", bundle: nil)
+        if let indexPath = tableView.indexPathForSelectedRow {
+            guard let destinationController = storyboard.instantiateViewController(withIdentifier: "ProductDetails") as? ProductDetailsViewController else {
+                return
+            }
+
+            destinationController.setProduct(product: self.productList[indexPath.row])
+            self.present(destinationController, animated: true, completion: nil)
+        }
     }
 }

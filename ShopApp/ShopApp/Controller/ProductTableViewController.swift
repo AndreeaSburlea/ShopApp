@@ -103,9 +103,6 @@ class ProductTableViewController: UITableViewController {
 
         // To hide when scoll
         navigationController?.hidesBarsOnSwipe = true
-
-        // Title to be large (not just in the begining )
-        navigationController?.navigationBar.prefersLargeTitles = true
     }
 
     // MARK: - Update Snapshot
