@@ -93,6 +93,7 @@ class HomeViewController: UIViewController {
         // Read data from database/categories/
         ref.child("categories/").observeSingleEvent(of: .value, with: { snapshot in
             let value = snapshot.value as? NSDictionary
+
             // Unwrap the dictionary
             if let categories = value {
                 // For each category:

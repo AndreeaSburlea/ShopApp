@@ -23,7 +23,7 @@ class ProductDetailsViewController: UIViewController {
     private var product = Product()
     private var sizeSelected = ""
     private var isFavorite = false
-    private var comments = [String: String]()
+    private var comments = [Comment]()
     private var ref = Database.database().reference()
 
     func setProduct(product: Product) { self.product = product }
@@ -41,10 +41,36 @@ class ProductDetailsViewController: UIViewController {
         setFavoritesButton()
         priceLabel.text = " $ " + self.product.getPrice()
         configureSizes()
-        setComments()
+        getComments()
 
+        commentsTableView.rowHeight = UITableView.automaticDimension
         commentsTableView.delegate = self
         commentsTableView.dataSource = self
+    }
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        self.commentsTableView.reloadData()
+    }
+
+    // MARK: - Auto sizing commentTable
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.commentsTableView.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.commentsTableView.removeObserver(self, forKeyPath: "contentSize")
+    }
+
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "contentSize" {
+            if let newValue = change?[.newKey] {
+                guard let newSize = newValue as? CGSize else { return }
+                self.tableHeight.constant = newSize.height
+            }
+        }
     }
 
     // MARK: - Prepare - segue
@@ -58,7 +84,9 @@ class ProductDetailsViewController: UIViewController {
 
         if let commentViewontroller = destination as? AddCommentViewController {
             guard let email = Auth.auth().currentUser?.email as? String else { return }
-            commentViewontroller.setRoot(root: "comments/\(product.getName())/\(email.replacingOccurrences(of: ".", with: " "))")
+            let emailKey = email.replacingOccurrences(of: ".", with: " ")
+            commentViewontroller.setRoots(commentRoot: "comments/\(product.getName())/\(emailKey)",
+                                          imageRoot: "commentsImage/\(product.getName())/\(emailKey)")
         }
     }
 
@@ -94,7 +122,7 @@ class ProductDetailsViewController: UIViewController {
         }
     }
 
-    // MARK: - Size button select actoin
+    // MARK: - Size button select action
     @IBAction private func sizeSelect(sender: UIButton) {
         guard sender.tintColor != UIColor.systemGray3 else {
             return
@@ -130,7 +158,7 @@ class ProductDetailsViewController: UIViewController {
 
         self.ref.child("users/\(emailRef)/favourites/\(self.product.getName())").observe(DataEventType.value, with: { snapshot in
 
-            guard let data = snapshot.value as? String else {
+            guard let _ = snapshot.value as? String else {
                 self.likeButton.setImage(UIImage(systemName: "hand.thumbsup"), for: .normal)
                 self.isFavorite = false
                 return
@@ -160,29 +188,49 @@ class ProductDetailsViewController: UIViewController {
         })
     }
 
+    func getCommentImage(roots: [String], completion: @escaping ([UIImage], Bool) -> Void) {
+        var images = [UIImage]()
+        for root in roots {
+            Storage.storage().reference().child(root).getData(maxSize: 500 * 512 * 512) { data, error in
+                guard let data = data, let imageData = UIImage(data: data) else {
+                    completion([UIImage](), false)
+                    return
+                }
+
+                images.append(imageData)
+
+                if images.count == roots.count {
+                    completion(images, true)
+                }
+            }
+        }
+    }
+
     // MARK: - Return comments
-    func getComments(completion: @escaping () -> Void) {
-        var productComments = [String: String]()
+    func getComments() {
+        var comment = Comment()
 
         ref.child("comments/\(self.product.getName())").observe(DataEventType.value, with: { snapshot in
 
-            guard let data = snapshot.value as? [String: String] else { return }
+            guard let data = snapshot.value as? [String: [String: [String]]] else { return }
+            self.comments.removeAll()
 
-            for value in data {
-                productComments[value.key] = value.value
+            let values = Array(data.keys)
+            if !values.isEmpty {
+                for i in 0...(values.count - 1) {
+                    guard let emailData = data[values[i]] else { return }
+
+                    // Get comments and images
+                    for commentData in emailData {
+                        self.getCommentImage(roots: commentData.value) { images, isImage in
+                            comment.configure(email: values[i], comment: commentData.key, images: images, isImage: isImage)
+                            self.comments.append(comment)
+                            self.commentsTableView.reloadData()
+                        }
+                    }
+                }
             }
-
-            self.comments = productComments
-            completion()
-        })
-    }
-
-    // MARK: - Set commentes table
-    func setComments() {
-        self.getComments {
-            self.tableHeight.constant = CGFloat((self.comments.count) * 54)
-            self.commentsTableView.reloadData()
-        }
+       })
     }
 
     // MARK: - Custom size buttons
@@ -212,6 +260,13 @@ class ProductDetailsViewController: UIViewController {
             pageControl.currentPage = index
         }
     }
+
+    func showCommentImage(images: [UIImage]){
+        guard let commentImagesViewController = self.storyboard?.instantiateViewController(withIdentifier: "CommentImagesViewController") as? CommentImagesViewController else { return }
+
+        commentImagesViewController.setImages(images: images)
+        present(commentImagesViewController, animated: true, completion: nil)
+    }
 }
 
 extension ProductDetailsViewController: ProductImagesPageViewControllerDelegate {
@@ -227,13 +282,33 @@ extension ProductDetailsViewController: UITableViewDataSource, UITableViewDelega
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "comment",
-                                                       for: indexPath) as? CommentTableViewCell else {
-            return UITableViewCell()
-        }
+        if self.comments[indexPath.row].getIsImage() == false {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "comment",
+                                                           for: indexPath) as? CommentTableViewCell else {
+                return UITableViewCell()
+            }
 
-        let email = Array(self.comments)[indexPath.row].key.replacingOccurrences(of: " ", with: ".")
-        cell.configure(email: email, comment: Array(self.comments)[indexPath.row].value)
-        return cell
+            let email = self.comments[indexPath.row].getEmail().replacingOccurrences(of: " ", with: ".")
+            cell.configure(email: email, comment: self.comments[indexPath.row].getComment())
+            return cell
+        } else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "commentImage",
+                                                           for: indexPath) as? CommentImageTableViewCell else {
+                return UITableViewCell()
+            }
+
+            cell.configure(email: self.comments[indexPath.row].getEmail(),
+                           comment: self.comments[indexPath.row].getComment(),
+                           commentImages: self.comments[indexPath.row].getImages())
+
+            cell.commentImagesDelegate = self
+            return cell
+        }
     }
- }
+}
+
+extension ProductDetailsViewController: ViewCommentImagesDelegate {
+    func viewCommentImages(images: [UIImage]) {
+        showCommentImage(images: images)
+    }
+}
