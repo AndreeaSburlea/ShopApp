@@ -153,7 +153,7 @@ class ProductTableViewController: UITableViewController {
 
     // MARK: - Get products from database
     func getProducts() {
-        let ref = Database.database().reference().child("products").queryOrdered(byChild: "category").queryEqual(toValue : self.category)
+        let ref = Database.database().reference().child("products").queryOrdered(byChild: "category").queryEqual(toValue: self.category)
 
         ref.observe(DataEventType.value, with: { snapshot in
 
