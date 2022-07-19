@@ -15,5 +15,7 @@ pod 'FirebaseAuth'
 pod 'SwiftLint'
 pod 'GoogleSignIn'
 pod 'FirebaseStorage'
+pod 'Cosmos'
+pod 'TinyConstraints'
 
 end
