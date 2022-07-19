@@ -9,6 +9,7 @@ import UIKit
 import FirebaseDatabase
 import FirebaseAuth
 import FirebaseStorage
+import Cosmos
 
 class ProductDetailsViewController: UIViewController {
     @IBOutlet private var pageControl: UIPageControl!
@@ -18,6 +19,9 @@ class ProductDetailsViewController: UIViewController {
     @IBOutlet private var likeButton: UIButton!
     @IBOutlet private var commentsTableView: UITableView!
     @IBOutlet weak var tableHeight: NSLayoutConstraint!
+    @IBOutlet private var ratingview: UIView!
+    @IBOutlet private var rateLabel: UILabel!
+    @IBOutlet private var starRateView: UIView!
 
     private var walkthroughPageViewController: ProductImagesPageViewController?
     private var product = Product()
@@ -32,6 +36,18 @@ class ProductDetailsViewController: UIViewController {
         addToCartMessageLabel.layer.backgroundColor = UIColor.systemGray6.cgColor
         addToCartMessageLabel.layer.masksToBounds = true
         addToCartMessageLabel.layer.cornerRadius = 9
+    }
+
+    func configureRate(rate: String) {
+        let rating = Double(rate) ?? 0
+
+        let cosmosView = CosmosView()
+        cosmosView.settings.updateOnTouch = false
+        cosmosView.settings.fillMode = .precise
+        let ratingRound = round(rating * 10) / 10.0
+        cosmosView.rating = ratingRound
+        self.rateLabel.text = "\(ratingRound)"
+        self.starRateView.addSubview(cosmosView)
     }
 
     // MARK: - ViewDidLoad
@@ -85,9 +101,16 @@ class ProductDetailsViewController: UIViewController {
         if let commentViewontroller = destination as? AddCommentViewController {
             guard let email = Auth.auth().currentUser?.email as? String else { return }
             let emailKey = email.replacingOccurrences(of: ".", with: " ")
-            commentViewontroller.setRoots(commentRoot: "comments/\(product.getName())/\(emailKey)",
-                                          imageRoot: "commentsImage/\(product.getName())/\(emailKey)")
+            commentViewontroller.setRoots(commentRoot: "comments/\(product.getName())/infoComments/\(emailKey)",
+                                          imageRoot: "commentsImage/\(product.getName())/\(emailKey)",
+                                          ratingRoot: "comments/\(product.getName())/rate")
         }
+    }
+
+    @IBAction func unwindToDetailProduct(_ sender: UIStoryboardSegue) {
+        guard let destionation = sender.source as? AddCommentViewController else { return }
+        destionation.saveAction()
+        getComments()
     }
 
     // MARK: - CloseAction for close button
@@ -140,6 +163,7 @@ class ProductDetailsViewController: UIViewController {
         self.sizeSelected = name
     }
 
+    // MARK: - Favorite action
     func favoritesAction() {
         guard let email = Auth.auth().currentUser?.email as? String else { return }
         let emailRef = email.replacingOccurrences(of: ".", with: " ")
@@ -169,6 +193,7 @@ class ProductDetailsViewController: UIViewController {
         })
     }
 
+    // MARK: - Add to cart action
     func addToCartAction(size: String, completion: @escaping (String) -> Void) {
         guard let email = Auth.auth().currentUser?.email as? String else { return }
 
@@ -188,7 +213,8 @@ class ProductDetailsViewController: UIViewController {
         })
     }
 
-    func getCommentImage(roots: [String], completion: @escaping ([UIImage], Bool) -> Void) {
+    // MARK: - Get comment images
+    func getCommentImages(roots: [String], completion: @escaping ([UIImage], Bool) -> Void) {
         var images = [UIImage]()
         for root in roots {
             Storage.storage().reference().child(root).getData(maxSize: 500 * 512 * 512) { data, error in
@@ -210,22 +236,40 @@ class ProductDetailsViewController: UIViewController {
     func getComments() {
         var comment = Comment()
 
-        ref.child("comments/\(self.product.getName())").observe(DataEventType.value, with: { snapshot in
+        ref.child("comments/\(self.product.getName())").observeSingleEvent(of: DataEventType.value, with: { snapshot in
 
-            guard let data = snapshot.value as? [String: [String: [String]]] else { return }
-            self.comments.removeAll()
+            guard let data = snapshot.value as? [String: Any] else {
+                self.configureRate(rate: "0")
+                return
+            }
 
-            let values = Array(data.keys)
-            if !values.isEmpty {
-                for i in 0...(values.count - 1) {
-                    guard let emailData = data[values[i]] else { return }
+            guard let rateProduct = data["rate"] as? [String: String] else { return }
+            guard let rating = rateProduct["rate"] else { return }
+            self.configureRate(rate: rating)
+
+            guard let comments = data["infoComments"] as? [String: [String: [String: [String]]]] else { return }
+
+            let users = Array(comments.keys)
+            if !users.isEmpty {
+                var commentsCopy = [Comment]()
+                var count = 0
+                for i in 0...(users.count - 1) {
+                    guard let commentData = comments[users[i]] else { return }
+                    count += commentData.count
 
                     // Get comments and images
-                    for commentData in emailData {
-                        self.getCommentImage(roots: commentData.value) { images, isImage in
-                            comment.configure(email: values[i], comment: commentData.key, images: images, isImage: isImage)
-                            self.comments.append(comment)
-                            self.commentsTableView.reloadData()
+                    for commentImagesAndRate in commentData {
+                        guard let commentRate = commentImagesAndRate.value["rate"] else { return }
+                        guard let rootImages = commentImagesAndRate.value["rootsOfImages"] else { return }
+
+                        self.getCommentImages(roots: rootImages) { images, isImage in
+                            comment.configure(email: users[i], comment: commentImagesAndRate.key, images: images, isImage: isImage, rate: commentRate[0])
+                            commentsCopy.append(comment)
+
+                            if( i == (users.count - 1) && count == commentsCopy.count) {
+                                self.comments = commentsCopy
+                                self.commentsTableView.reloadData()
+                            }
                         }
                     }
                 }
@@ -261,7 +305,7 @@ class ProductDetailsViewController: UIViewController {
         }
     }
 
-    func showCommentImage(images: [UIImage]){
+    func showCommentImage(images: [UIImage]) {
         guard let commentImagesViewController = self.storyboard?.instantiateViewController(withIdentifier: "CommentImagesViewController") as? CommentImagesViewController else { return }
 
         commentImagesViewController.setImages(images: images)
@@ -289,7 +333,8 @@ extension ProductDetailsViewController: UITableViewDataSource, UITableViewDelega
             }
 
             let email = self.comments[indexPath.row].getEmail().replacingOccurrences(of: " ", with: ".")
-            cell.configure(email: email, comment: self.comments[indexPath.row].getComment())
+            cell.configure(email: email, comment: self.comments[indexPath.row].getComment(), rate: self.comments[indexPath.row].getRate())
+            cell.sizeToFit()
             return cell
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "commentImage",
@@ -299,7 +344,8 @@ extension ProductDetailsViewController: UITableViewDataSource, UITableViewDelega
 
             cell.configure(email: self.comments[indexPath.row].getEmail(),
                            comment: self.comments[indexPath.row].getComment(),
-                           commentImages: self.comments[indexPath.row].getImages())
+                           commentImages: self.comments[indexPath.row].getImages(),
+                           rate: self.comments[indexPath.row].getRate())
 
             cell.commentImagesDelegate = self
             return cell
