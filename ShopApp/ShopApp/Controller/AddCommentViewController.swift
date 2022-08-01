@@ -11,24 +11,33 @@ import FirebaseAuth
 import FirebaseStorage
 import Photos
 import PhotosUI
+import Cosmos
 
 class AddCommentViewController: UIViewController {
 
     @IBOutlet private var collectionView: UICollectionView!
+    @IBOutlet private var reviewView: UIView!
     @IBOutlet private var commentTextField: UITextField! {
         didSet {
             commentTextField.becomeFirstResponder()
         }
     }
 
+    lazy var cosmosView: CosmosView = {
+        var view = CosmosView()
+        return view
+    }()
+
     private var imageRoot = ""
     private var commentRoot = ""
+    private var ratingRoot = ""
     private var images = [UIImage]()
     private var rootsImages = [String]()
 
-    func setRoots(commentRoot: String, imageRoot: String) {
+    func setRoots(commentRoot: String, imageRoot: String, ratingRoot: String) {
         self.commentRoot = commentRoot
         self.imageRoot = imageRoot
+        self.ratingRoot = ratingRoot
     }
 
     // MARK: - Configure colletion view
@@ -41,7 +50,7 @@ class AddCommentViewController: UIViewController {
     }
 
     // MARK: - Get root for images based on number of comments from current user
-    func getRootByNumberOfComments(completion: @escaping (String) -> () ) {
+    func getRootByNumberOfComments(completion: @escaping (String) -> ()) {
         Database.database().reference().child(commentRoot).observeSingleEvent(of: DataEventType.value, with: { snapshot in
             guard snapshot.hasChildren() else {
                 completion(self.imageRoot + "0")
@@ -61,30 +70,40 @@ class AddCommentViewController: UIViewController {
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
         configureCollection()
+        configureCosmosView()
+    }
+
+    func configureCosmosView() {
+        self.cosmosView.settings.fillMode = .full
+        self.cosmosView.backgroundColor = .white
+        self.cosmosView.rating = 0
+        self.reviewView.addSubview(cosmosView)
+    }
+
+    // MARK: - Save review
+    func saveReview() {
+        let rating = self.cosmosView.rating
+
+        guard rating != 0.0 else { return }
+
+        Database.database().reference().child("\(self.ratingRoot)").observeSingleEvent(of: DataEventType.value) { snapshot in
+            guard let rate = snapshot.value as? [String: String] else {
+                Database.database().reference().child("\(self.ratingRoot)").setValue(["users": "1", "rate": "\(rating)"])
+                return
+            }
+
+            guard let numberOfUsers = rate["users"] else { return }
+            guard let oldRating = rate["rate"]  else { return }
+
+            let newRating = (((Double(oldRating) ?? 0) * (Double(numberOfUsers) ?? 0)) + rating ) / ((Double(numberOfUsers) ?? 0) + 1)
+
+            Database.database().reference().child("\(self.ratingRoot)").setValue(["users": "\((Double(numberOfUsers) ?? 0) + 1)", "rate": "\(newRating)"])
+        }
     }
 
     // MARK: - Cancel button action
     @IBAction private func cancelAction(sender: UIButton ) {
         dismiss(animated: true, completion: nil)
-    }
-
-    // MARK: - Save button action
-    @IBAction private func saveButtonTapped(sender: UIButton ) {
-        if commentTextField.text == "" {
-            let allFieldRequired = UIAlertController(title: "Oops",
-                                                     message: "We can't proceed because the field is blank. Please note that field is required",
-                                                     preferredStyle: .alert)
-            allFieldRequired.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
-            present(allFieldRequired, animated: true, completion: nil)
-        } else {
-
-            let comment = commentTextField.text ?? ""
-            self.saveImage(comment: comment) {
-                Database.database().reference().child("\(self.commentRoot)/\(comment)").setValue(self.rootsImages)
-            }
-
-            dismiss(animated: true, completion: nil)
-        }
     }
 
     // MARK: - Add image button action
@@ -151,6 +170,22 @@ class AddCommentViewController: UIViewController {
                         completion()
                     }
                 }
+            }
+        }
+    }
+
+    func saveAction() {
+        if commentTextField.text == "" {
+            let allFieldRequired = UIAlertController(title: "Oops",
+                                                     message: "We can't proceed because the field is blank. Please note that field is required",
+                                                     preferredStyle: .alert)
+            allFieldRequired.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+            present(allFieldRequired, animated: true, completion: nil)
+        } else {
+            let comment = commentTextField.text ?? ""
+            self.saveImage(comment: comment) {
+                Database.database().reference().child("\(self.commentRoot)/\(comment)").setValue(["rootsOfImages": self.rootsImages, "rate": ["\(self.cosmosView.rating)"]])
+                self.saveReview()
             }
         }
     }
